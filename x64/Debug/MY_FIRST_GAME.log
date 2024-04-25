@@ -1,0 +1,23 @@
+﻿  Player.cpp
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(46,4): warning C4150: deletion of pointer to incomplete type 'Bullet'; no destructor called
+  (compiling source file 'Player.cpp')
+  D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(12,7):
+  see declaration of 'Bullet'
+  
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(51,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Player.cpp')
+  
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(5,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(6,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(146,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(157,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(266,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(273,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(280,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(286,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(295,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(304,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(308,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(327,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Player.cpp(344,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  MY_FIRST_GAME.vcxproj -> D:\PROJECT\MY_FIRST_GAME\x64\Debug\MY_FIRST_GAME.exe
