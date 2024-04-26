@@ -44,14 +44,14 @@ void Skeleton::Gravity()
 	else y_val_ = 0;
 }
 
-void Skeleton::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a)
+void Skeleton::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_skeletonSFX[])
 {
 	
 	//std::cout << getRect().w << " " << getRect().h << std::endl;
 	if (x_val_ < 0) flip_type_ = SDL_FLIP_HORIZONTAL;
 	if (x_val_ > 0) flip_type_ = SDL_FLIP_NONE;
 	Gravity();
-	GetHit(p_player, p_secret, p_a);
+	GetHit(p_player, p_secret, p_a, p_skeletonSFX);
 	AutoMovement(levelList);
 	MoveToPlayer(p_player, p_secret, levelList, p_a);
 	KnockBack();
@@ -138,6 +138,7 @@ void Skeleton::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>&
 	if (levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() >= 83 && levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() <= 89)
 	{
 		death_ = true;
+		Mix_PlayChannel(-1, p_skeletonSFX[deathSFX], 0);
 	}
 	// cần sửa tấn công
 
@@ -165,7 +166,7 @@ void Skeleton::AutoMovement(std::vector<Game_Map>& levelList)
 
 void Skeleton::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a)
 {
-	if (!death_ && !beinghit_)
+	if (!death_ && !beinghit_ && !p_a)
 	{
 		distanceToPlayer = sqrt(((p_player.getX() + 48) - (getX() + 32)) * ((p_player.getX() + 48) - (getX() + 32)) + ((p_player.getY() + 48) - (getY() + 32)) * ((p_player.getY() + 48) - (getY() + 32))); // stupid
 		if (distanceToPlayer <= 10 * TILE_WIDTH) // 7 ô
@@ -183,7 +184,7 @@ void Skeleton::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game
 			}
 
 		}
-
+		if (p_player.getCollision().x - 8 <= collision.x && p_player.getCollision().x + 8 >= collision.x) x_val_ = 0;
 		//if (((distanceToPlayer <= TILE_WIDTH * 2 && getFlip() == SDL_FLIP_HORIZONTAL) || (distanceToPlayer <= 2 * TILE_WIDTH && getFlip() == SDL_FLIP_NONE)) && !death_ && on_ground_ && !beinghit_) attack_ = true; // thiếu điều kiện
 		if (attackCooldown == 0)
 		{
@@ -199,7 +200,7 @@ void Skeleton::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game
 		}
 	}
 	
-	if (!death_ && p_a)
+	if (!death_ && p_a && !beinghit_)
 	{
 		distanceToSecret = sqrt(((p_secret.getX() + 80) - (getX() + 32)) * ((p_secret.getX() + 80) - (getX() + 32)) + ((p_secret.getY() + 64) - (getY() + 32)) * ((p_secret.getY() + 64) - (getY() + 32))); // stupid
 		if (distanceToSecret <= 10 * TILE_WIDTH) // 7 ô
@@ -216,6 +217,7 @@ void Skeleton::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game
 				else x_val_ = -SKELETON_VAL;
 			}
 		}
+		if (p_secret.getCollision().x - 8 <= collision.x && p_secret.getCollision().x + 8 >= collision.x) x_val_ = 0;
 
 		if (attackCooldown == 0)
 		{
@@ -265,7 +267,7 @@ void Skeleton::KnockBack()
 	}
 }
 
-void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a)
+void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a, Mix_Chunk* p_skeletonSFX[])
 {
 	/*
 	if (distanceToPlayer <= 48 && p_player.isAttacking() && !death_ && ((p_player.getFlip() == SDL_FLIP_NONE && p_player.getX() - getX() + 16 <= 0) || (p_player.getFlip() == SDL_FLIP_HORIZONTAL && p_player.getX() - getX() + 16 >= 0)))
@@ -284,6 +286,7 @@ void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a)
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				beinghit_ = true;
+				Mix_PlayChannel(-1, p_skeletonSFX[hurtSFX], 0);
 
 			}
 		}
@@ -294,6 +297,7 @@ void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a)
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				beinghit_ = true;
+				Mix_PlayChannel(-1, p_skeletonSFX[hurtSFX], 0);
 
 			}
 		}
@@ -309,6 +313,7 @@ void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a)
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				beinghit_ = true;
+				Mix_PlayChannel(-1, p_skeletonSFX[hurtSFX], 0);
 
 			}
 		}
@@ -319,6 +324,7 @@ void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a)
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				beinghit_ = true;
+				Mix_PlayChannel(-1, p_skeletonSFX[hurtSFX], 0);
 
 			}
 		}
@@ -327,20 +333,17 @@ void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a)
 		{
 			beinghit_ = true;
 			attack_ = false;
-
 			attackCounter = 0;
-			//p_secret.setParry(true);
-			//death_ = true;
+			Mix_PlayChannel(-1, p_skeletonSFX[parrySFX], 0);
 		}
 
 		if (isAttacking() && p_secret.isBuffParrying() && distanceToSecret <= 32)
 		{
 			beinghit_ = true;
 			attack_ = false;
-
+			Mix_PlayChannel(-1, p_skeletonSFX[parrySFX], 0);
 			attackCounter = 0;
 			p_secret.setBuffParry(false);
-			//death_ = true;
 		}
 	}
 	
@@ -348,6 +351,7 @@ void Skeleton::GetHit(Player& p_player, Secret& p_secret, bool p_a)
 	if (skeleton_health_ <= 0)
 	{
 		death_ = true;
+		
 		beinghit_ = false;
 	}
 }
@@ -361,7 +365,7 @@ bool Skeleton::isDead()
 	else return false;
 }
 
-void Skeleton::render(SDL_Rect& camera)
+void Skeleton::render(SDL_Rect& camera, Mix_Chunk* p_skeletonSFX[])
 {
 	if (idle_ || fall_)
 	{
@@ -394,6 +398,7 @@ void Skeleton::render(SDL_Rect& camera)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &deathClips[deathCounter / 4], &camera, 0, NULL, getFlip());
 		deathCounter++;
+		if (deathCounter == 1) Mix_PlayChannel(-1, p_skeletonSFX[deathSFX], 0);
 		if (deathCounter / 4 >= DEATH_ANIMATION_FRAME)
 		{
 			
@@ -404,6 +409,7 @@ void Skeleton::render(SDL_Rect& camera)
 	if (attack_ && !beinghit_ && !death_ && !walk_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &attackingClips[attackCounter / 2], &camera, 0, NULL, getFlip());
+		if (attackCounter / 2 == 7) Mix_PlayChannel(-1, p_skeletonSFX[attackSFX], 0);
 		attackCounter++;
 		if (attackCounter / 2 >= ATTACKING_ANIMATION_FRAME)
 		{

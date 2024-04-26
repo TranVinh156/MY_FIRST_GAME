@@ -45,7 +45,7 @@ Player::~Player()
 }
 
 
-void Player::HandleInput(SDL_Event& events)
+void Player::HandleInput(SDL_Event& events, Mix_Chunk* p_playerSFX[])
 {
 	if (!death_)
 	{
@@ -70,17 +70,19 @@ void Player::HandleInput(SDL_Event& events)
 				{
 					y_val_ -= 6;
 					doublejump_ = true;
+					Mix_PlayChannel(-1, p_playerSFX[jumpSFX], 0);
 				}
 				if (on_ground_)
 				{
 					Jump();
+					Mix_PlayChannel(-1, p_playerSFX[jumpSFX], 0);
 				}
 				
 				break;
-			case SDLK_j:
-				Attack();
+			//case SDLK_j:
+			//	Attack();
 				
-				break;
+			//	break;
 			case SDLK_LCTRL: // nhảy lên
 				if (on_ground_)
 				{
@@ -120,7 +122,7 @@ void Player::HandleInput(SDL_Event& events)
 		else if (events.type == SDL_MOUSEBUTTONDOWN && events.key.repeat == 0) {
 			if (events.button.button == SDL_BUTTON_LEFT) 
 			{
-				
+				//Mix_PlayChannel(-1, p_playerSFX[attackSFX], 0);
 				Attack();
 				//chưa biết làm gì
 			}
@@ -178,6 +180,7 @@ void Player::Attack()
 	if (attack_)
 	{
 		combo_ = true;
+		//Mix_PlayChannel(-1, p_playerSFX[attackSFX], 0);
 	}
 	else combo_ = false;
 	if (!death_ && !run_ && !attack_) attack_ = true;
@@ -224,11 +227,11 @@ void Player::Gravity()
 	else y_val_ = GRAVITY;
 }
 
-void Player::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>& levelList, Boss& p_boss)
+void Player::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>& levelList, Boss& p_boss, Mix_Chunk* p_playerSFX[])
 {
 	Gravity();
 	//on_ground_ = true;
-	if (!death_) GetHit(skeletonList, p_boss);
+	if (!death_) GetHit(skeletonList, p_boss, p_playerSFX);
 
 	//x_val_ += PLAYER_VAL;
 	if (!death_ && on_ground_ && x_val_ == 0 && !roll_)
@@ -316,6 +319,7 @@ void Player::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>&
 			{
 				on_ground_ = true;
 				doublejump_ = false;
+				Mix_PlayChannel(-1, p_playerSFX[landSFX], 0);
 			}
 		}
 		else if (y_val_ < 0 && (levelList.at(levelSTT).getTilesList().at(groundSTT - 565 * 2)->getType() <= 60 || levelList.at(levelSTT).getTilesList().at(groundSTT - 565 * 2 + 1)->getType() <= 60))
@@ -330,6 +334,7 @@ void Player::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>&
 	if (levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() >= 83 && levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() <= 89)
 	{
 		death_ = true;
+		Mix_PlayChannel(-1, p_playerSFX[deathSFX], 0);
 	}
 
 	if (down_)
@@ -370,7 +375,7 @@ bool Player::isAttacking()
 	else return false;
 }
 
-void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss)
+void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chunk* p_playerSFX[])
 {
 	
 	for (int i = 0; i < skeletonList.size(); i++)
@@ -381,6 +386,7 @@ void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss)
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				death_ = true;
+				Mix_PlayChannel(-1, p_playerSFX[deathSFX], 0);
 			}
 		}
 
@@ -390,22 +396,18 @@ void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss)
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				death_ = true;
+				Mix_PlayChannel(-1, p_playerSFX[deathSFX], 0);
 			}
 		}
 	}
-	
-	/*
-		if (p_boss.isAttacking() && ((p_boss.getFlip() == SDL_FLIP_HORIZONTAL && p_boss.getDistance() <= 6 * TILE_WIDTH && (getX() + 48 - (p_boss.getX() + 112) <= 64 )) || (p_boss.getFlip() == SDL_FLIP_NONE && p_boss.getDistance() <= 9 * TILE_WIDTH && (getX() + 48 - (p_boss.getX() + 112) >= 0))) && !roll_)
-		{
-			death_ = true;
-		}
-		*/
+
 	if (p_boss.isAttacking() && !roll_ && p_boss.getFlip() == SDL_FLIP_NONE)
 	{
 		SDL_Rect a = { p_boss.getCollision().x + 64, p_boss.getCollision().y, 80, 80 };
 		if (CommonFunc::checkCollision(a, getCollision()))
 		{
 			death_ = true;
+			Mix_PlayChannel(-1, p_playerSFX[deathSFX], 0);
 		}
 	}
 	if (p_boss.isAttacking() && !roll_ && p_boss.getFlip() == SDL_FLIP_HORIZONTAL)
@@ -414,6 +416,7 @@ void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss)
 		if (CommonFunc::checkCollision(a, getCollision()))
 		{
 			death_ = true;
+			Mix_PlayChannel(-1, p_playerSFX[deathSFX], 0);
 		}
 	}
 
@@ -423,6 +426,7 @@ void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss)
 		if (CommonFunc::checkCollision(a, getCollision()))
 		{
 			death_ = true;
+			Mix_PlayChannel(-1, p_playerSFX[deathSFX], 0);
 		}
 	}
 
@@ -433,6 +437,7 @@ void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss)
 			if (CommonFunc::checkCollision(p_boss.GetBulletList().at(i)->getCollision(), getCollision()))
 			{
 				death_ = true;
+				Mix_PlayChannel(-1, p_playerSFX[deathSFX], 0);
 				p_boss.GetBulletList().at(i)->setMove(false);
 			}
 		}
@@ -440,7 +445,7 @@ void Player::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss)
 	}
 }
 
-void Player::Render(SDL_Rect& camera)
+void Player::Render(SDL_Rect& camera, Mix_Chunk* p_playerSFX[])
 {
 	if (idle_ && !attack_ && !beinghit_)
 	{
@@ -452,9 +457,13 @@ void Player::Render(SDL_Rect& camera)
 	
 	if (run_ && !attack_ && !beinghit_)
 	{
-		CommonFunc::renderAnimation(text_, x_, y_, &runningClips[runCounter / 2], &camera, 0, NULL, getFlip());
+		CommonFunc::renderAnimation(text_, x_, y_, &runningClips[runCounter / 4], &camera, 0, NULL, getFlip());
+		if (runCounter % 4 == 0)
+		{
+			Mix_PlayChannel(-1, p_playerSFX[stepSFX], 0);
+		}
 		runCounter++;
-		if (runCounter / 2 >= RUNNING_ANIMATION_FRAME) runCounter = 0;
+		if (runCounter / 4 >= RUNNING_ANIMATION_FRAME) runCounter = 0;
 	}
 	else runCounter = 0;
 
@@ -492,6 +501,7 @@ void Player::Render(SDL_Rect& camera)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &attackingClips[attackCounter / 3], &camera, 0, NULL, getFlip());
 		attackCounter++;
+		if (attackCounter == 1 || attackCounter == 13) Mix_PlayChannel(-1, p_playerSFX[attackSFX], 0);
 		if (attackCounter / 3 >= 4)
 		{
 			if (!combo_)

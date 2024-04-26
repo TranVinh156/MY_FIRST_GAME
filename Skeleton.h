@@ -20,15 +20,22 @@ class Secret;
 class Skeleton : public Entity
 {
 public:
+	enum SFX
+	{
+		attackSFX = 0,
+		parrySFX = 1,
+		deathSFX = 2,
+		hurtSFX = 3,
+	};
 	Skeleton(float p_x, float p_y, SDL_Texture* p_text);
 	~Skeleton();
-	void Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a);
+	void Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_skeletonSFX[]);
 	void AutoMovement(std::vector<Game_Map>& levelList);
 	void MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a);
 	
 	void KnockBack();
 
-	void GetHit(Player& p_player, Secret& p_secret, bool p_a);
+	void GetHit(Player& p_player, Secret& p_secret, bool p_a, Mix_Chunk* p_skeletonSFX[]);
 	
 	void Gravity();
 	bool isDead();
@@ -38,7 +45,7 @@ public:
 	void SetLevelSTT(int p_levelSTT) { levelSTT = p_levelSTT; };
 	float getDistance() { return distanceToPlayer; };
 	bool getLoaded() const { return loaded_; };
-	void render(SDL_Rect& camera);
+	void render(SDL_Rect& camera, Mix_Chunk* p_skeletonSFX[]);
 	SDL_Rect getCollision() { return collision; };
 	
 private:

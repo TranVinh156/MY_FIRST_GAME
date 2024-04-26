@@ -15,10 +15,18 @@ class Secret;
 class Boss : public Entity
 {
 public:
+	enum
+	{
+		attackSFX = 0,
+		parrySFX = 1,
+		spellSFX = 2,
+		hurtSFX = 3,
+		deathSFX = 4,
+	};
 	Boss(float p_x, float p_y, SDL_Texture* p_text);
 	~Boss() {};
-	void Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a);
-	void MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a);
+	void Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_bossSFX[]);
+	void MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_bossSFX[]);
 	void Attack();
 	void Smash();
 	void Spell();
@@ -28,9 +36,9 @@ public:
 	SDL_Rect getCollision() { return collision; };
 
 	void Gravity();
-	void Render(SDL_Rect& camera);
+	void Render(SDL_Rect& camera, Mix_Chunk* p_bossSFX[]);
 	float getDistance() { return distanceToPlayer; };
-	void GetHit(Player& p_player, Secret& p_secret);
+	void GetHit(Player& p_player, Secret& p_secret, Mix_Chunk* p_bossSFX[]);
 
 	void ResetBoss()
 	{

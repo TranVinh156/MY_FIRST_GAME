@@ -19,12 +19,21 @@
 class Secret : public Entity
 {
 public:
+	enum SFX
+	{
+		stepSFX = 0,
+		jumpSFX = 1,
+		landSFX = 2,
+		attackSFX = 3,
+		deathSFX = 4,
+		spellSFX = 5,
+	};
 	Secret(float p_x, float p_y, SDL_Texture* p_text);
 	~Secret() {};
-	void HandleInput(SDL_Event& events);
+	void HandleInput(SDL_Event& events, Mix_Chunk* p_secretSFX[]);
 	void HandleCamera(SDL_Rect& camera, int& p_levelSTT, bool& p_nextlevel, int& p_skeCount);
 
-	void Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>& levelList, Boss& p_boss);// 
+	void Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>& levelList, Boss& p_boss, Mix_Chunk* p_secretSFX[]);// 
 
 	void Attack();
 	void Jump();
@@ -34,7 +43,7 @@ public:
 
 	bool getDead() { return death_; };
 
-	void GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss);
+	void GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chunk* p_secretSFX[]);
 
 	bool isAttacking();
 	bool isParrying() const { return parry_; };
@@ -42,7 +51,7 @@ public:
 	int getShieldCounter() const { return shieldCounter; };
 	void HandleCamera(); // chưa biết làm gì
 
-	void Render(SDL_Rect& camera);//SDL_Rect* p_camera); // Nhớ thêm camera
+	void Render(SDL_Rect& camera, Mix_Chunk* p_secretSFX[]);//SDL_Rect* p_camera); // Nhớ thêm camera
 	SDL_Rect getCollision() { return Collision; };
 	int getLevelSTT() const { return levelSTT; };
 	void setParry(bool p_parry) 

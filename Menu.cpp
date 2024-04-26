@@ -29,28 +29,14 @@ Menu::Menu(SDL_Texture* p_button, SDL_Texture* p_bg, SDL_Texture* p_helpText, SD
 	}
 }
 
-void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Secret& p_secret, Boss& p_boss)
+void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Secret& p_secret, Boss& p_boss, Mix_Chunk* p_menuSFX[])
 {
 	switch (event.type)
 	{
 	case SDL_TEXTINPUT:
 		if (name_)
 		{
-			//if (event.type == SDL_TEXTINPUT) {
-				// Nếu có sự kiện nhập liệu
-				playerName += event.text.text;
-			/*
-			if (event.type == SDL_KEYDOWN) {
-				// Xoá ký tự nếu nhấn phím Backspace
-				if (event.key.keysym.sym == SDLK_BACKSPACE && playerName.length() > 0) {
-					playerName.pop_back();
-				}
-				// Kết thúc nhập khi nhấn phím Enter
-				else if (event.key.keysym.sym == SDLK_RETURN) {
-					menu_ = true;
-					name_ = false;
-				}
-			}*/
+			playerName += event.text.text;
 		}
 		break;
 	case SDL_MOUSEBUTTONDOWN:
@@ -62,6 +48,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[0] = true;
 					selected[0] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//menu_ = false;
 					//choose_ = true;
 				}
@@ -69,6 +56,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[1] = true;
 					selected[1] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//help_ = true;
 				}
 				else help_ = false;
@@ -76,6 +64,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[2] = true;
 					selected[2] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//gameRunning = false;
 				}
 			}
@@ -86,6 +75,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[3] = true;
 					selected[3] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//reset_ = true;
 				}
 
@@ -93,6 +83,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[4] = true;
 					selected[4] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//menu_ = true;
 					//reset_ = true;
 				}
@@ -104,6 +95,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[5] = true;
 					selected[5] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//secret_ = false;
 					//choose_ = false;
 					//menu_ = false;
@@ -112,6 +104,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[6] = true;
 					selected[6] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//choose_ = false;
 					//menu_ = false;
 					//secret_ = true;
@@ -124,6 +117,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[3] = true;
 					selected[3] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//paused_ = false;
 				}
 
@@ -131,6 +125,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				{
 					pressed[4] = true;
 					selected[4] = false;
+					Mix_PlayChannel(-1, p_menuSFX[press], 0);
 					//menu_ = true;
 					//reset_ = true;
 				}
@@ -199,6 +194,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 			if (CheckMouse(button5.x, button5.y) && pressed[4])
 			{
 				menu_ = true;
+				paused_ = false;
 				reset_ = true;
 			}
 		}
@@ -213,18 +209,45 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 			if (CheckMouse(button1.x, button1.y) && !pressed[0])
 			{
 				selected[0] = true;
+				if (!sfx_[0])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[0] = true;
+				}
 			}
-			else selected[0] = false;
+			else
+			{
+				selected[0] = false;
+				sfx_[0] = false;
+			}
 			if (CheckMouse(button2.x, button2.y) && !pressed[1])
 			{
 				selected[1] = true;
+				if (!sfx_[1])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[1] = true;
+				}
 			}
-			else selected[1] = false;
+			else
+			{
+				selected[1] = false;
+				sfx_[1] = false;
+			}
 			if (CheckMouse(button3.x, button3.y) && !pressed[2])
 			{
 				selected[2] = true;
+				if (!sfx_[2])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[2] = true;
+				}
 			}
-			else selected[2] = false;
+			else
+			{
+				selected[2] = false;
+				sfx_[2] = false;
+			}
 		}
 
 		if (p_player.getDead() || p_secret.getDead() || p_boss.GetDead())
@@ -232,42 +255,94 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 			if (CheckMouse(button4.x, button4.y) && !pressed[3])
 			{
 				selected[3] = true;
+				if (!sfx_[3])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[3] = true;
+				}
 			}
-			else selected[3] = false;
+			else
+			{
+				selected[3] = false;
+				sfx_[3] = false;
+			}
 
 			if (CheckMouse(button5.x, button5.y) && !pressed[4])
 			{
 				selected[4] = true;
+				if (!sfx_[4])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[4] = true;
+				}
 			}
-			else selected[4] = false;
+			else
+			{
+				selected[4] = false;
+				sfx_[4] = false;
+			}
 		}
 		if (isChoose())
 		{
 			if (CheckMouse(button6.x, button6.y, BUTTON_WIDTH * 2, BUTTON_HEIGHT * 2))
 			{
 				selected[5] = true;
-				//secret_ = true;
+				if (!sfx_[5])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[5] = true;
+				}				//secret_ = true;
 			}
-			else selected[5] = false;
+			else
+			{
+				selected[5] = false;
+				sfx_[5] = false;
+			}
 			if (CheckMouse(button7.x, button7.y, BUTTON_WIDTH * 2, BUTTON_HEIGHT * 2))
 			{
 				selected[6] = true;
-				//secret_ = false;;
+				if (!sfx_[6])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[6] = true;
+				}				//secret_ = false;;
 			}
-			else selected[6] = false;
+			else
+			{
+				selected[6] = false;
+				sfx_[6] = false;
+			}
 		}
 		if (paused_)
 		{
 			if (CheckMouse(button4.x, button4.y))
 			{
 				selected[3] = true;
+				if (!sfx_[3])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[3] = true;
+				}
 			}
-			else selected[3] = false;
+			else
+			{
+				selected[3] = false;
+				sfx_[3] = false;
+			}
 			if (CheckMouse(button5.x, button5.y))
 			{
 				selected[4] = true;
+				if (!sfx_[4])
+				{
+					Mix_PlayChannel(-1, p_menuSFX[select], 0);
+					sfx_[4] = true;
+				}
 			}
-			else selected[4] = false;
+			else
+			{
+				selected[4] = false;
+				sfx_[4] = false;
+			}
 		}
 		break;
 	case SDL_KEYDOWN:
@@ -284,7 +359,7 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 			{
 				menu_ = true;
 				name_ = false;
-				if (playerName == "NGUYEN_THI_NGOC_YEN") unlock_ = true;
+				if (playerName == "NGUYEN_THI_NGOC_YEN" || playerName == "NGUYEN THI NGOC YEN" || playerName == "YEN") unlock_ = true;
 			}
 			break;
 		case SDLK_ESCAPE:
@@ -517,7 +592,7 @@ void Menu::RenderPauseMenu()
 {
 	if (paused_)
 	{
-		CommonFunc::renderTexture(BgText, 0, 0, 720, 480);
+		//CommonFunc::renderTexture(BgText, 0, 0, 720, 480);
 		
 		if (selected[3])
 		{

@@ -2,10 +2,7 @@
 //
 
 #include "RenderWindow.h"
-#include "Player.h"
-#include "Timer.h"
 #include "Game.h"
-//ImpTimer fps;
 Game MyGame;
 
 int main(int argc, char* argv[])

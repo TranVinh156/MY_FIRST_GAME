@@ -43,7 +43,7 @@ void Game::SetRect()
 		TileClip[i].h = TILE_HEIGHT;
 		
 		n += TILE_WIDTH;
-		if (n >= TILE_WIDTH*15)
+		if (n >= TILE_WIDTH * 15)
 		{
 			n = 0;
 			m += TILE_HEIGHT;
@@ -95,6 +95,55 @@ bool Game::LoadMedia()
 		success = false;
 	}
 	
+	playerSFX[0] = Mix_LoadWAV("sfx/Player/step1.wav");
+	playerSFX[1] = Mix_LoadWAV("sfx/Player/Jump-1.wav");
+	playerSFX[2] = Mix_LoadWAV("sfx/Player/land.wav");
+	playerSFX[3] = Mix_LoadWAV("sfx/Player/Battle_Grunt16.wav");
+	playerSFX[4] = Mix_LoadWAV("sfx/Player/Death-Scream-1.wav");
+	for (int i = 0; i < 4; i++)
+	{
+		if (playerSFX[i] == NULL) success = false;
+	}
+
+	secretSFX[0] = Mix_LoadWAV("sfx/Secret/step1.wav");
+	secretSFX[1] = Mix_LoadWAV("sfx/Secret/jump1.wav");
+	secretSFX[2] = Mix_LoadWAV("sfx/Secret/land.wav");
+	secretSFX[3] = Mix_LoadWAV("sfx/Secret/attack3.wav");
+	secretSFX[4] = Mix_LoadWAV("sfx/Secret/death_10_meghan.wav");
+	secretSFX[5] = Mix_LoadWAV("sfx/Secret/39_Absorb_04.wav");
+	for (int i = 0; i < 5; i++)
+	{
+		if (secretSFX[i] == NULL) success = false;
+	}
+
+	skeletonSFX[0] = Mix_LoadWAV("sfx/Enemy/56_Attack_03.wav");
+	skeletonSFX[1] = Mix_LoadWAV("sfx/Enemy/39_Block_03.wav");
+	skeletonSFX[2] = Mix_LoadWAV("sfx/Enemy/die_monster.wav");
+	skeletonSFX[3] = Mix_LoadWAV("sfx/Enemy/61_Hit_03.wav");
+	for (int i = 0; i < 4; i++)
+	{
+		if (skeletonSFX[i] == NULL) success = false;
+	}
+
+	bossSFX[0] = Mix_LoadWAV("sfx/Boss/axe_boss.wav");
+	bossSFX[1] = Mix_LoadWAV("sfx/Boss/39_Block_03.wav");
+	bossSFX[2] = Mix_LoadWAV("sfx/Boss/04_Fire_explosion_04_medium.wav");
+	bossSFX[3] = Mix_LoadWAV("sfx/Boss/hurt_monster.wav");
+	bossSFX[4] = Mix_LoadWAV("sfx/Boss/die_boss.wav");
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (bossSFX[i] == NULL) success = false;
+	}
+
+	menuSFX[0] = Mix_LoadWAV("sfx/menu/select.wav");
+	menuSFX[1] = Mix_LoadWAV("sfx/menu/press.wav");
+
+	for (int i = 0; i < 2; i++)
+	{
+		if (menuSFX[i] == NULL) success = false;
+	}
+
 	return success;
 	// còn load âm thanh menu Texture;
 }
@@ -245,18 +294,18 @@ bool Game::CreateUnDead()
 void Game::HandleGameInput(SDL_Event& event)
 {
 	if (event.type == SDL_QUIT) gameRunning = false;
-	menuList.at(0).HandleInput(event, gameRunning, playerList.at(0), secretList.at(0), BossList.at(0));
+	menuList.at(0).HandleInput(event, gameRunning, playerList.at(0), secretList.at(0), BossList.at(0), menuSFX);
 	if (!menuList.at(0).isMenu() && !menuList.at(0).isPasued() && !menuList.at(0).isChoose() && !menuList.at(0).isName())
 	{
 		playerName = menuList.at(0).GetPlayerName();
 		secret_ = menuList.at(0).isSecret();
 		if (!secret_)
 		{
-			playerList.at(0).HandleInput(event);
+			playerList.at(0).HandleInput(event, playerSFX);
 		}
 		else
 		{
-			secretList.at(0).HandleInput(event);
+			secretList.at(0).HandleInput(event, secretSFX);
 		}
 		
 	}
@@ -329,16 +378,16 @@ void Game::RenderName()
 
 void Game::RenderPlayer()
 {
-	playerList.at(0).Update(skeletonList, levelList, BossList.at(0));
+	playerList.at(0).Update(skeletonList, levelList, BossList.at(0), playerSFX);
 	playerList.at(0).HandleCamera(camera, levelSTT, nextlevel_, skeletonCount);
-	playerList.at(0).Render(camera);
+	playerList.at(0).Render(camera, playerSFX);
 }
 
 void Game::RenderSecret()
 {
-	secretList.at(0).Update(skeletonList, levelList, BossList.at(0));
+	secretList.at(0).Update(skeletonList, levelList, BossList.at(0), secretSFX);
 	secretList.at(0).HandleCamera(camera, levelSTT, nextlevel_, skeletonCount);
-	secretList.at(0).Render(camera);
+	secretList.at(0).Render(camera, secretSFX);
 }
 
 void Game::RenderSkeleton()
@@ -351,8 +400,8 @@ void Game::RenderSkeleton()
 			{
 				if (skeletonList.at(i)->SetLoaded(playerList.at(0), secretList.at(0), secret_))
 				{
-					skeletonList.at(i)->Update(playerList.at(0), secretList.at(0), levelList, secret_);
-					skeletonList.at(i)->render(camera);
+					skeletonList.at(i)->Update(playerList.at(0), secretList.at(0), levelList, secret_, skeletonSFX);
+					skeletonList.at(i)->render(camera, skeletonSFX);
 				}
 				
 			}
@@ -401,8 +450,8 @@ void Game::RenderMap()
 
 void Game::RenderBoss()
 {
-	BossList.at(0).Update(playerList.at(0), secretList.at(0), levelList, secret_);
-	BossList.at(0).Render(camera);
+	BossList.at(0).Update(playerList.at(0), secretList.at(0), levelList, secret_, bossSFX);
+	BossList.at(0).Render(camera, bossSFX);
 }
 
 void Game::Render_MainMenu()
@@ -422,7 +471,7 @@ void Game::Render_ChooseMenu()
 
 void Game::Render_PauseMenu()
 {
-	CommonFunc::clearRenderer();
+	//CommonFunc::clearRenderer();
 	menuList.at(0).RenderPauseMenu();
 	CommonFunc::renderPresent();
 }
@@ -498,8 +547,35 @@ void Game::CleanGame()
 	SDL_DestroyTexture(SecretText);
 	SDL_DestroyTexture(HelpText);
 	SDL_DestroyTexture(NameText);
+	
 	Mix_FreeMusic(bgMusic);
+	bgMusic = NULL;
 
+	for (int i = 0; i < 5; i++)
+	{
+		Mix_FreeChunk(playerSFX[i]);
+		playerSFX[i] = NULL;
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		Mix_FreeChunk(secretSFX[i]);
+		secretSFX[i] = NULL;
+	}
+	for (int i = 0; i < 4; i++)
+	{
+		Mix_FreeChunk(skeletonSFX[i]);
+		skeletonSFX[i] = NULL;
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		Mix_FreeChunk(bossSFX[i]);
+		bossSFX[i] = NULL;
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Mix_FreeChunk(menuSFX[i]);
+		menuSFX[i] = NULL;
+	}
 	if (!skeletonList.empty())
 	{
 		for (int i = skeletonList.size() - 1; i >= 0; i--) {
@@ -509,7 +585,7 @@ void Game::CleanGame()
 		}
 	}
 
-	bgMusic = NULL;
+	
 
 	SecretText = NULL;
 	BulletText = NULL;

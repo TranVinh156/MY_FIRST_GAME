@@ -49,15 +49,15 @@ void Boss::Gravity()
 }
 
 
-void Boss::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a)
+void Boss::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_bossSFX[])
 {
 	if (x_val_ > 0) flip_type_ = SDL_FLIP_NONE;
 	if (x_val_ < 0) flip_type_ = SDL_FLIP_HORIZONTAL;
 	
 	//std::cout << getRect().w << " " << getRect().h << std::endl;
-	GetHit(p_player, p_secret);
+	GetHit(p_player, p_secret, p_bossSFX);
 	Gravity();
-	MoveToPlayer(p_player, p_secret, levelList, p_a);
+	MoveToPlayer(p_player, p_secret, levelList, p_a, p_bossSFX);
 	
 
 	if (x_val_ == 0 && !death_ && !hurt_ && !attack_ && !smash_ && !spell_ && on_ground_)
@@ -145,22 +145,8 @@ void Boss::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& lev
 	//std::cout << levelSTT << std::endl;
 }
 
-void Boss::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a)
+void Boss::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_bossSFX[])
 {
-	//distanceToPlayer = sqrt(((p_player.getX() + 48) - (getX() + 32)) * ((p_player.getX() + 48) - (getX() + 32)) + ((p_player.getY() + 48) - (getY() + 32)) * ((p_player.getY() + 48) - (getY() + 32)));
-
-	/*
-	if (!death_ && on_ground_ && !attack_)
-	{
-		
-		if (p_player.getX() + 48 - (getX() + 112) > 0) x_val_ = BOSS_VAL_;
-		if (p_player.getX() + 48 - (getX() + 112) < 0) x_val_ = -BOSS_VAL_;
-
-		if (distanceToPlayer <= 100) attack_ = true;
-		else attack_ = false;
-	}
-	*/
-
 	if (!death_)
 	{
 		distanceToPlayer = sqrt(((p_player.getX() + 48) - (getX() + 112)) * ((p_player.getX() + 48) - (getX() + 112)) + ((p_player.getY() + 48) - (getY() + 80)) * ((p_player.getY() + 48) - (getY() + 80))); // stupid
@@ -286,6 +272,7 @@ void Boss::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map
 		smashCounter = 0;
 		attackCounter = 0;
 		spell_ = true;
+		Mix_PlayChannel(-1, p_bossSFX[spellSFX], 0);
 		//SpellCoolDown = 0;
 		Spell();
 		smash_ = false;
@@ -328,23 +315,15 @@ void Boss::Spell()
 
 }
 
-void Boss::GetHit(Player& p_player, Secret& p_secret)
+void Boss::GetHit(Player& p_player, Secret& p_secret, Mix_Chunk* p_bossSFX[])
 {
-	/*
-	if (distanceToPlayer <= 48 && p_player.isAttacking() && !death_ && !attack_ && ((p_player.getFlip() == SDL_FLIP_NONE && p_player.getX() - getX() - 64 <= 0) || (p_player.getFlip() == SDL_FLIP_HORIZONTAL && p_player.getX() - getX() - 64 >= 0)))
-	{
-		hurt_ = true;
-	}
-	*/
 	if (p_player.isAttacking() && p_player.getFlip() == SDL_FLIP_NONE)
 	{
 		SDL_Rect a = { p_player.getCollision().x + 16, p_player.getCollision().y, 48, 32 };
-		//std::cout << CommonFunc::checkCollision(a, getCollision()) << std::endl;
-		//std::cout << a.x << std::endl;
-		//std::cout << a.y << std::endl;
 		if (CommonFunc::checkCollision(a, getCollision()))
 		{
 			hurt_ = true;
+			Mix_PlayChannel(-1, p_bossSFX[hurtSFX], 0);
 		}
 	}
 
@@ -354,18 +333,17 @@ void Boss::GetHit(Player& p_player, Secret& p_secret)
 		if (CommonFunc::checkCollision(a, getCollision()))
 		{
 			hurt_ = true;
+			Mix_PlayChannel(-1, p_bossSFX[hurtSFX], 0);
 		}
 	}
 
 	if (p_secret.isAttacking() && p_secret.getFlip() == SDL_FLIP_NONE)
 	{
 		SDL_Rect a = { p_secret.getCollision().x + 16, p_secret.getCollision().y, 48, 32 };
-		//std::cout << CommonFunc::checkCollision(a, getCollision()) << std::endl;
-		//std::cout << a.x << std::endl;
-		//std::cout << a.y << std::endl;
 		if (CommonFunc::checkCollision(a, getCollision()))
 		{
 			hurt_ = true;
+			Mix_PlayChannel(-1, p_bossSFX[hurtSFX], 0);
 		}
 	}
 
@@ -375,6 +353,7 @@ void Boss::GetHit(Player& p_player, Secret& p_secret)
 		if (CommonFunc::checkCollision(a, getCollision()))
 		{
 			hurt_ = true;
+			Mix_PlayChannel(-1, p_bossSFX[hurtSFX], 0);
 		}
 	}
 
@@ -382,7 +361,7 @@ void Boss::GetHit(Player& p_player, Secret& p_secret)
 	{
 		hurt_ = true;
 		attack_ = false;
-
+		Mix_PlayChannel(-1, p_bossSFX[parrySFX], 0);
 		attackCounter = 0;
 		//p_secret.setParry(true);
 		//death_ = true;
@@ -392,7 +371,7 @@ void Boss::GetHit(Player& p_player, Secret& p_secret)
 	{
 		hurt_ = true;
 		attack_ = false;
-
+		Mix_PlayChannel(-1, p_bossSFX[parrySFX], 0);
 		attackCounter = 0;
 		p_secret.setBuffParry(false);
 		//death_ = true;
@@ -423,7 +402,7 @@ bool Boss::isSmashing()
 	return false;
 }
 
-void Boss::Render(SDL_Rect& camera)
+void Boss::Render(SDL_Rect& camera, Mix_Chunk* p_bossSFX[])
 {
 	
 	if (idle_ || fall_)
@@ -456,6 +435,7 @@ void Boss::Render(SDL_Rect& camera)
 	if (death_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &deathClips[deathCounter / 4], &camera, 0, NULL, getFlip());
+		if (deathCounter == 1) Mix_PlayChannel(-1, p_bossSFX[deathSFX], 0);
 		deathCounter++;
 		if (deathCounter / 4 >= DEATH_ANIMATION_FRAME)
 		{
@@ -468,6 +448,7 @@ void Boss::Render(SDL_Rect& camera)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &attackingClips[attackCounter / 3], &camera, 0, NULL, getFlip());
 		attackCounter++;
+		if (attackCounter / 3 == 9) Mix_PlayChannel(-1, p_bossSFX[attackSFX], 0);
 		if (attackCounter / 3 >= ATTACKING_ANIMATION_FRAME)
 		{
 			attack_ = false;

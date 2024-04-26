@@ -79,7 +79,11 @@ private:
 	
 	Mix_Music* bgMusic = NULL;
 	Mix_Chunk* bossMusic = NULL;
-	
+	Mix_Chunk* playerSFX[5] = { NULL };
+	Mix_Chunk* secretSFX[6] = { NULL };
+	Mix_Chunk* skeletonSFX[4] = { NULL };
+	Mix_Chunk* bossSFX[5] = { NULL };
+	Mix_Chunk* menuSFX[2] = { NULL };
 	ImpTimer fps;
 	std::stringstream timeText;
 	std::stringstream skeText;

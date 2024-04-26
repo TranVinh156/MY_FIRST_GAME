@@ -9,11 +9,16 @@
 class Menu
 {
 public:
+	enum SFX
+	{
+		select = 0,
+		press = 1,
+	};
 	Menu(SDL_Texture* p_button, SDL_Texture* p_bg, SDL_Texture* p_helpText, SDL_Texture* p_name);
 
 	~Menu() {};
 
-	void HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Secret& p_secret, Boss& p_boss);
+	void HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Secret& p_secret, Boss& p_boss, Mix_Chunk* p_menuSFX[]);
 	bool CheckMouse(const int& p_x, const int& p_y, int p_width = 0, int p_height = 0);
 	
 	void RenderMainMenu();
@@ -86,6 +91,7 @@ private:
 	bool selected[7] = { false }; // được chọn
 	bool pressed[7] = { false }; 
 	bool secretCode_[16] = { false };
+	bool sfx_[7] = { false };
 };
 
 

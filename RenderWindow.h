@@ -23,16 +23,13 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "Secret.h"
-//class Entity;
-//class Tile;
+
 class Game_Map;
 
 const int FRAME_PER_SECOND = 35;
 
 const int SCREEN_WIDTH = 720;
 const int SCREEN_HEIGHT = 480;
-//const int LEVEL_WIDTH = 720;
-//const int LEVEL_HEIGHT = 480;
 
 const int LEVEL_WIDTH = 9040;
 const int LEVEL_HEIGHT = 1792;
@@ -75,8 +72,8 @@ namespace CommonFunc
 
 	bool checkCollision(SDL_Rect a, SDL_Rect b);
 
-	bool checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int& levelSTT); // kiểm tra cho x
-	bool checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, bool& on_ground, int& groundSTT, int& levelSTT); // kiểm tra cho y
+	bool checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int& levelSTT);
+	bool checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, bool& on_ground, int& groundSTT, int& levelSTT);
 
 	bool loadFont(std::string p_path);
 	SDL_Texture* createText(std::string p_text, SDL_Color p_textColor);
