@@ -26,7 +26,7 @@
 
 class Game_Map;
 
-const int FRAME_PER_SECOND = 35;
+const int FRAME_PER_SECOND = 45;
 
 const int SCREEN_WIDTH = 720;
 const int SCREEN_HEIGHT = 480;

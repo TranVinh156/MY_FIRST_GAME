@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2_image-2.8.2\include;D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2_mixer-2.8.0\include;D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2_ttf-2.22.0\include;D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2-2.30.1\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2-2.30.1\lib\x64;D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2_ttf-2.22.0\lib\x64;D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2_mixer-2.8.0\lib\x64;D:\PROJECT\MY_FIRST_GAME\SDL2\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)SDL2\SDL2_image-2.8.2\include;$(SolutionDir)SDL2\SDL2_mixer-2.8.0\include;$(SolutionDir)SDL2\SDL2_ttf-2.22.0\include;$(SolutionDir)SDL2\SDL2-2.30.1\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)SDL2\SDL2-2.30.1\lib\x64;$(SolutionDir)SDL2\SDL2_ttf-2.22.0\lib\x64;$(SolutionDir)SDL2\SDL2_mixer-2.8.0\lib\x64;$(SolutionDir)SDL2\SDL2_image-2.8.2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)SDL2\SDL2_ttf-2.22.0\include;$(SolutionDir)SDL2\SDL2-2.30.1\include;$(SolutionDir)SDL2\SDL2_image-2.8.2\include;$(SolutionDir)SDL2\SDL2_mixer-2.8.0\include;$(IncludePath)</IncludePath>
