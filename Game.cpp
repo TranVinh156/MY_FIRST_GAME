@@ -179,7 +179,7 @@ void Game::PlayMusic()
 {
 	if (Mix_PlayingMusic() == 0) {
 		Mix_FadeInMusic(bgMusic, -1, 1000);
-		Mix_VolumeMusic(10);
+		Mix_VolumeMusic(20);
 	}
 	else if (Mix_PausedMusic() == 1) Mix_ResumeMusic();
 	else if (playerList.at(0).getDead()) Mix_HaltMusic();

@@ -1,36 +1,17 @@
-﻿  RenderWindow.cpp
+﻿  Game.cpp
 D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(54,4): warning C4150: deletion of pointer to incomplete type 'Bullet'; no destructor called
-  (compiling source file 'RenderWindow.cpp')
+  (compiling source file 'Game.cpp')
   D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(12,7):
   see declaration of 'Bullet'
   
 D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(48,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'RenderWindow.cpp')
+  (compiling source file 'Game.cpp')
   
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(101,30): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(101,30): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(101,45): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(101,45): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(117,19): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(117,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(117,24): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(117,24): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(136,19): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(136,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(136,25): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(136,25): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(139,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(140,15): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(148,33): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(148,33): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(148,60): warning C4838: conversion from 'float' to 'int' requires a narrowing conversion
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(148,60): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(223,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(303,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(377,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(443,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(483,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.cpp(530,18): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(331,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(581,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(614,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(622,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(641,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
   2 of 991 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation

@@ -1,1 +1,15 @@
-﻿  MY_FIRST_GAME.vcxproj -> D:\PROJECT\MY_FIRST_GAME\x64\Debug\MY_FIRST_GAME.exe
+﻿  Game.cpp
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(54,4): warning C4150: deletion of pointer to incomplete type 'Bullet'; no destructor called
+  (compiling source file 'Game.cpp')
+  D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(12,7):
+  see declaration of 'Bullet'
+  
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(48,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Game.cpp')
+  
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(331,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(581,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(614,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(622,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(641,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  MY_FIRST_GAME.vcxproj -> D:\PROJECT\MY_FIRST_GAME\x64\Debug\MY_FIRST_GAME.exe
