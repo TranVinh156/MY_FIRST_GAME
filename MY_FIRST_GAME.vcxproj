@@ -143,6 +143,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Archer.cpp" />
     <ClCompile Include="BOSS.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -154,11 +155,12 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderWindow.cpp" />
     <ClCompile Include="Secret.cpp" />
-    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="Undead.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Archer.h" />
     <ClInclude Include="BOSS.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Entity.h" />
@@ -169,7 +171,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderWindow.h" />
     <ClInclude Include="Secret.h" />
-    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="Undead.h" />
     <ClInclude Include="Tile.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>

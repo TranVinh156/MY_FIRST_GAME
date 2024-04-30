@@ -67,12 +67,13 @@ void Bullet::setFlip(SDL_RendererFlip p_flip)
 	flip_type_ = p_flip;
 }
 
-void Bullet::setSize_Position(const int& p_playerX)
+void Bullet::setSize_Position(const int& p_playerX, int p_height)
 {
 	if (getFlip() == SDL_FLIP_HORIZONTAL)
 	{
 		x_ = p_playerX;
 	}
+	collision.h = p_height;
 }
 
 

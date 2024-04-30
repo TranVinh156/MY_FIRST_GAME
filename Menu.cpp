@@ -25,7 +25,10 @@ Menu::Menu(SDL_Texture* p_button, SDL_Texture* p_bg, SDL_Texture* p_helpText, SD
 			YenButton[i][j] = { j * BUTTON_WIDTH * 2, (14 + 2 * i) * BUTTON_HEIGHT, BUTTON_WIDTH * 2, BUTTON_HEIGHT * 2};
 		}
 		//secretButton[i] = { i * BUTTON_WIDTH, 4 * BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT };
-		
+	}
+	for (int i = 0; i < MAX_HEALTH_BAR; i++)
+	{
+		HealthBar[i] = { i * HEALTH_BAR_WIDTH, 20 * BUTTON_HEIGHT, HEALTH_BAR_WIDTH, HEALTH_BAR_HEIGHT };
 	}
 }
 
@@ -130,6 +133,8 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 					//reset_ = true;
 				}
 			}
+
+			
 		}
 
 
@@ -711,3 +716,12 @@ void Menu::RenderHelpMenu()
 
 }
 */
+
+void Menu::RenderMainGame(Secret& p_secret)
+{
+	if (!isMenu() && !isName() && !isPasued() && !isChoose())
+	{
+		health_ = p_secret.getHealth();
+	}
+	CommonFunc::renderTexture(ButtonText, 0, 0, 0, 0, &HealthBar[health_]);
+}

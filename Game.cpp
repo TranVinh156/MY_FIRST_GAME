@@ -65,12 +65,10 @@ bool Game::LoadMedia()
 	SecretText = CommonFunc::loadTexture("img/Yen.png");
 	if (SecretText == NULL) success = false;
 
-	UndeadText = CommonFunc::loadTexture("img/Skeleton.png");
+	UndeadText = CommonFunc::loadTexture("img/undead.png");
 	if (UndeadText == NULL) success = false;
-	/* map cu
-	TileSetText = CommonFunc::loadTexture("img/map/TileSet.png");
-	if (TileSetText == NULL) success = false;
-	*/ 
+	ArcherText = CommonFunc::loadTexture("img/archer.png");
+	if (ArcherText == NULL) success = false;
 	TileSetText = CommonFunc::loadTexture("img/map/newTile.png");
 	if (TileSetText == NULL) success = false;
 	//return success;
@@ -86,7 +84,8 @@ bool Game::LoadMedia()
 	if (DemonText == NULL) success = false;
 	BulletText = CommonFunc::loadTexture("img/Bullet.png");
 	if (BulletText == NULL) success = false;
-	
+	ArrowText = CommonFunc::loadTexture("img/arrow.png");
+	if (ArrowText == NULL) success = false;
 	
 	bgMusic = Mix_LoadMUS("sfx/xDeviruchi - Prepare for Battle! .wav");
 	if (bgMusic == NULL)
@@ -116,13 +115,13 @@ bool Game::LoadMedia()
 		if (secretSFX[i] == NULL) success = false;
 	}
 
-	skeletonSFX[0] = Mix_LoadWAV("sfx/Enemy/56_Attack_03.wav");
-	skeletonSFX[1] = Mix_LoadWAV("sfx/Enemy/39_Block_03.wav");
-	skeletonSFX[2] = Mix_LoadWAV("sfx/Enemy/die_monster.wav");
-	skeletonSFX[3] = Mix_LoadWAV("sfx/Enemy/61_Hit_03.wav");
+	undeadSFX[0] = Mix_LoadWAV("sfx/Enemy/56_Attack_03.wav");
+	undeadSFX[1] = Mix_LoadWAV("sfx/Enemy/39_Block_03.wav");
+	undeadSFX[2] = Mix_LoadWAV("sfx/Enemy/die_monster.wav");
+	undeadSFX[3] = Mix_LoadWAV("sfx/Enemy/61_Hit_03.wav");
 	for (int i = 0; i < 4; i++)
 	{
-		if (skeletonSFX[i] == NULL) success = false;
+		if (undeadSFX[i] == NULL) success = false;
 	}
 
 	bossSFX[0] = Mix_LoadWAV("sfx/Boss/axe_boss.wav");
@@ -150,7 +149,7 @@ bool Game::LoadMedia()
 
 bool Game::CreateMap()
 {
-	path_pos level1("img/map/maplevel1.tmx", {16433, 16442, 16449, 9107, 12509, 12520, 8561, 8575, 16467, 16479, 16490, 11435, 
+	path_pos level1("img/map/MapLevel1.1.tmx", {16433, 16442, 16449, 9107, 12509, 12520, 8561, 8575, 16467, 16479, 16490, 11435, 
 		18227, 22191, 29530, 29546, 26165, 22783, 22799, 28445, 28454, 22811, 30160, 
 		30172, 30183, 22836, 26238, 22853, 30202, 23273, 27238, 30627, 34576, 34588, 
 		34602, 23259, 23245, 26626, 28905, 28916, 34561, 34553, 38511, 46415, 43581, 
@@ -159,7 +158,7 @@ bool Game::CreateMap()
 		42492, 54327, 61667, 57717});
 	mapList.push_back(level1);
 	
-	path_pos level2("img/map/newMap.tmx", { 28860, 28871, 23777, 35121, 38506, 42460, 42472, 46430, 46406, 53754, 53766, 53778
+	path_pos level2("img/map/MapLevel2.1.tmx", { 28860, 28871, 23777, 35121, 38506, 42460, 42472, 46430, 46406, 53754, 53766, 53778
 		, 49819, 30076, 30086, 18773, 18788, 38030, 41994, 49338, 45384, 53295, 53271
 		, 60620, 60630, 60642, 56684, 19987, 19996, 23953, 27903, 21168, 23439, 23449
 		, 17222, 16676, 27443, 30829, 34792, 38733, 42697, 50038, 46087, 20693, 16738
@@ -179,7 +178,7 @@ void Game::PlayMusic()
 {
 	if (Mix_PlayingMusic() == 0) {
 		Mix_FadeInMusic(bgMusic, -1, 1000);
-		Mix_VolumeMusic(20);
+		Mix_VolumeMusic(30);
 	}
 	else if (Mix_PausedMusic() == 1) Mix_ResumeMusic();
 	else if (playerList.at(0).getDead()) Mix_HaltMusic();
@@ -198,23 +197,10 @@ bool Game::CreateMenu()
 
 bool Game::CreateLevel()
 {
-
-	/*
-	for (int i = 0; i < TOTAL_MAP; i++)
-	{
-		Game_Map level(i * LEVEL_WIDTH, 0, mapList.at(i).path, TileSetText);
-		level.SetSkeletonPos(mapList.at(i).skeleton_pos);
-		levelList.push_back(level);
-	}
-	if (levelList.size() < TOTAL_LEVEL)
-	{
-		return false;
-	}
-	*/
 	for (int i = 0; i < TOTAL_MAP; i++)
 	{
 		Game_Map level(0, 0, mapList.at(i).path, TileSetText);
-		level.SetSkeletonPos(mapList.at(i).skeleton_pos);
+		//level.SetUndeadPos(mapList.at(i).undead_pos);
 		levelList.push_back(level);
 	}
 	
@@ -227,19 +213,6 @@ bool Game::CreateLevel()
 
 bool Game::CreateBoss()
 {
-	/*
-	Boss DemonKing(levelList.at(9).getX() + 16 * 20, 256, DemonText);
-	//Boss DemonKing(16 * 20, 256, DemonText);
-	BossList.push_back(DemonKing);
-
-	Goblin GoblinKing(16 * 20, 304, GoblinText);
-	GoblinList.push_back(GoblinKing);
-
-	if (BossList.size() < 0 || GoblinList.size() < 0)
-	{
-		return false;
-	}
-	*/
 	Boss DemonKing(TILE_WIDTH * (20331 % 565) - 112, TILE_WIDTH * (20331 / 565) - 80 - 80, DemonText);
 	BossList.push_back(DemonKing);
 
@@ -253,7 +226,6 @@ bool Game::CreateBoss()
 bool Game::CreatePlayer()
 {
 	Player Hunter(16 * 16, 21 * 16, HunterText);
-	//Player Hunter(LEVEL_WIDTH - SCREEN_WIDTH, 96, HunterText);
 	playerList.push_back(Hunter);
 	if (playerList.size() < 0)
 	{
@@ -265,7 +237,6 @@ bool Game::CreatePlayer()
 bool Game::CreateSecret()
 {
 	Secret Yen(16 * 16, 20 * 16, SecretText);
-	//Secret Yen(LEVEL_WIDTH - SCREEN_WIDTH, 96, SecretText);
 	secretList.push_back(Yen);
 	if (secretList.size() < 0)
 	{
@@ -277,13 +248,19 @@ bool Game::CreateSecret()
 bool Game::CreateUnDead()
 {	
 	
-		if (levelList.at(levelSTT).GetSkeletonPos().size() > 0)
+		if (levelList.at(levelSTT).GetUndeadPos().size() > 0)
 		{
-			for (int j = 0; j < levelList.at(levelSTT).GetSkeletonPos().size(); j++)
+			for (int j = 0; j < levelList.at(levelSTT).GetUndeadPos().size(); j++)
 			{
-				Skeleton* undead = new Skeleton(levelList.at(levelSTT).getX() + (levelList.at(levelSTT).GetSkeletonPos().at(j) % 565) * TILE_WIDTH - 32, levelList.at(levelSTT).getY() + (levelList.at(levelSTT).GetSkeletonPos().at(j) / 565) * TILE_HEIGHT - 48, UndeadText);
+				Undead* undead = new Undead(levelList.at(levelSTT).getX() + (levelList.at(levelSTT).GetUndeadPos().at(j) % 565) * TILE_WIDTH - 32, levelList.at(levelSTT).getY() + (levelList.at(levelSTT).GetUndeadPos().at(j) / 565) * TILE_HEIGHT - 48, UndeadText);
 				undead->SetLevelSTT(levelSTT);
-				skeletonList.push_back(undead);
+				undeadList.push_back(undead);
+			}
+			for (int i = 0; i < levelList.at(levelSTT).GetArcherPos().size(); i++)
+			{
+				Archer* archer = new Archer(levelList.at(levelSTT).getX() + (levelList.at(levelSTT).GetArcherPos().at(i) % 565) * TILE_WIDTH - 32, levelList.at(levelSTT).getY() + (levelList.at(levelSTT).GetArcherPos().at(i) / 565) * TILE_HEIGHT - 48, ArcherText);
+				archer->SetLevelSTT(levelSTT);
+				archerList.push_back(archer);
 			}
 		}
 	
@@ -309,55 +286,34 @@ void Game::HandleGameInput(SDL_Event& event)
 		}
 		
 	}
-	/*
-	if (event.type == SDL_TEXTINPUT) {
-		// Nếu có sự kiện nhập liệu
-		playerName += event.text.text;
-	}
-	else if (event.type == SDL_KEYDOWN) {
-		// Xoá ký tự nếu nhấn phím Backspace
-		if (event.key.keysym.sym == SDLK_BACKSPACE && playerName.length() > 0) {
-			playerName.pop_back();
-		}
-		// Kết thúc nhập khi nhấn phím Enter
-		else if (event.key.keysym.sym == SDLK_RETURN) {
-			//quit = true;
-		}
-	}
-	*/
 }
 void Game::FPSCounter()
 {
 	avgFPS = countedFrames / (fps.getTicks() / 1000.f);
-	/*
-	if (avgFPS > 45) {
-		avgFPS = 45;
-	}
-	*/
 	timeText.str("");
 	timeText << "FPS: " << avgFPS;
 
 	SDL_Color whiteColor = { 255,255,255,255 };
 	SDL_Texture* textTex = CommonFunc::createText(timeText.str().c_str(), whiteColor);
-	Entity text(64, 0, textTex);
+	Entity text(0, 450, textTex);
 	CommonFunc::renderTexture(text);
 	++countedFrames;
 	SDL_DestroyTexture(textTex);
 	textTex = NULL;
 }
 
-void Game::skeCounter()
+void Game::killCounter()
 {
-	skeText.str("");
-	skeText << "SKE: " << skeletonCount;
+	killText.str("");
+	killText << "KILL: " << undeadCount;
 	SDL_Color whiteColor = { 255, 255, 255, 255 };
 	SDL_Color redColor = { 255, 0, 0, 255 };
-	SDL_Texture* textTex = CommonFunc::createText(skeText.str().c_str(), whiteColor);
-	if (skeletonCount >= 50)
+	SDL_Texture* textTex = CommonFunc::createText(killText.str().c_str(), whiteColor);
+	if (undeadCount >= 50)
 	{
-		textTex = CommonFunc::createText(skeText.str().c_str(), redColor);
+		textTex = CommonFunc::createText(killText.str().c_str(), redColor);
 	}
-	Entity text(64 * 4, 0, textTex);
+	Entity text(0, 420, textTex);
 	CommonFunc::renderTexture(text);
 	SDL_DestroyTexture(textTex);
 	textTex = NULL;
@@ -367,10 +323,16 @@ void Game::RenderName()
 {
 	SDL_Color whiteColor = { 255,255,255,255 };
 	SDL_Texture* textTex = CommonFunc::createText(playerName, whiteColor);
-	
-	Entity text(SCREEN_WIDTH - 256, 0, textTex);
-	CommonFunc::renderTexture(text);
-	
+	if (secret_)
+	{
+		Entity text(96, 50, textTex);
+		CommonFunc::renderTexture(text);
+	}
+	else
+	{
+		Entity text(0, 0, textTex);
+		CommonFunc::renderTexture(text);
+	}
 	
 	SDL_DestroyTexture(textTex);
 	textTex = NULL;
@@ -378,68 +340,134 @@ void Game::RenderName()
 
 void Game::RenderPlayer()
 {
-	playerList.at(0).Update(skeletonList, levelList, BossList.at(0), playerSFX);
-	playerList.at(0).HandleCamera(camera, levelSTT, nextlevel_, skeletonCount);
+	playerList.at(0).Update(undeadList, archerList, levelList, BossList.at(0), playerSFX);
+	playerList.at(0).HandleCamera(camera, levelSTT, nextlevel_, undeadCount);
 	playerList.at(0).Render(camera, playerSFX);
 }
 
 void Game::RenderSecret()
 {
-	secretList.at(0).Update(skeletonList, levelList, BossList.at(0), secretSFX);
-	secretList.at(0).HandleCamera(camera, levelSTT, nextlevel_, skeletonCount);
+	secretList.at(0).Update(undeadList, archerList, levelList, BossList.at(0), secretSFX);
+	secretList.at(0).HandleCamera(camera, levelSTT, nextlevel_, undeadCount);
 	secretList.at(0).Render(camera, secretSFX);
 }
 
-void Game::RenderSkeleton()
+void Game::RenderUndead()
 {
-	for (int i = 0; i < skeletonList.size(); i++)
+	for (int i = 0; i < undeadList.size(); i++)
 	{
-		if (skeletonList.at(i) != NULL)
+		if (undeadList.at(i) != NULL)
 		{
-			if (!skeletonList.at(i)->isDead())
+			if (!undeadList.at(i)->isDead())
 			{
-				if (skeletonList.at(i)->SetLoaded(playerList.at(0), secretList.at(0), secret_))
+				if (undeadList.at(i)->SetLoaded(playerList.at(0), secretList.at(0), secret_))
 				{
-					skeletonList.at(i)->Update(playerList.at(0), secretList.at(0), levelList, secret_, skeletonSFX);
-					skeletonList.at(i)->render(camera, skeletonSFX);
+					undeadList.at(i)->Update(playerList.at(0), secretList.at(0), levelList, secret_, undeadSFX);
+					undeadList.at(i)->render(camera, undeadSFX);
 				}
 				
 			}
 			else
 			{
-				skeletonCount++;
-				delete skeletonList.at(i);
-				skeletonList.at(i) = NULL;
-				//skeletonList.erase(skeletonList.begin() + i);
+				undeadCount++;
+				delete undeadList.at(i);
+				undeadList.at(i) = NULL;
+				undeadList.erase(undeadList.begin() + i);
 			}
 			
 		}
 		
+	}
+	for (int i = 0; i < archerList.size(); i++)
+	{
+		if (archerList.at(i) != NULL)
+		{
+			if (!archerList.at(i)->isDead())
+			{
+				if (archerList.at(i)->SetLoaded(playerList.at(0), secretList.at(0), secret_))
+				{
+					archerList.at(i)->Update(playerList.at(0), secretList.at(0), levelList, secret_, undeadSFX);
+					archerList.at(i)->render(camera, undeadSFX);
+				}
+
+			}
+			else
+			{
+				undeadCount++;
+				delete archerList.at(i);
+				archerList.at(i) = NULL;
+				archerList.erase(archerList.begin() + i);
+			}
+
+		}
 	}
 	
 }
 
 void Game::RenderBullet()
 {
-	std::vector<Bullet*> bulletList = BossList.at(0).GetBulletList();
+	std::vector<Bullet*> BossBulletList = BossList.at(0).GetBulletList();
 	for (int i = 0; i < BossList.at(0).GetBulletList().size(); i++)
 	{
-		if (bulletList.at(i) != NULL)
+		if (BossBulletList.at(i) != NULL)
 		{
-			if (bulletList.at(i)->isMoving())
+			if (BossBulletList.at(i)->isMoving())
 			{
-				bulletList.at(i)->Render(camera, BulletText);
-				bulletList.at(i)->Update(levelList);
+				BossBulletList.at(i)->Render(camera, BulletText);
+				BossBulletList.at(i)->Update(levelList);
 			}
 			else
 			{
-				delete bulletList.at(i);
-				bulletList.at(i) = NULL;
-				bulletList.erase(bulletList.begin() + i);
-				BossList.at(0).SetBulletList(bulletList);
+				delete BossBulletList.at(i);
+				BossBulletList.at(i) = NULL;
+				BossBulletList.erase(BossBulletList.begin() + i);
+				BossList.at(0).SetBulletList(BossBulletList);
 			}
 		}
 		
+	}
+
+	std::vector<Bullet*> SecretBulletList = secretList.at(0).GetBulletList();
+	for (int i = 0; i < secretList.at(0).GetBulletList().size(); i++)
+	{
+		if (SecretBulletList.at(i) != NULL)
+		{
+			if (SecretBulletList.at(i)->isMoving())
+			{
+				SecretBulletList.at(i)->Render(camera, ArrowText);
+				SecretBulletList.at(i)->Update(levelList);
+			}
+			else
+			{
+				delete SecretBulletList.at(i);
+				SecretBulletList.at(i) = NULL;
+				SecretBulletList.erase(SecretBulletList.begin() + i);
+				secretList.at(0).SetBulletList(SecretBulletList);
+			}
+		}
+	}
+
+	for (int i = 0; i < archerList.size(); i++)
+	{
+		std::vector<Bullet*> ArcherBulletList = archerList.at(i)->GetBulletList();
+		for (int j = 0; j < archerList.at(i)->GetBulletList().size(); j++)
+		{
+			if (ArcherBulletList.at(j) != NULL)
+			{
+				if (ArcherBulletList.at(j)->isMoving())
+				{
+					ArcherBulletList.at(j)->Render(camera, ArrowText);
+					ArcherBulletList.at(j)->Update(levelList);
+				}
+				else
+				{
+					delete ArcherBulletList.at(j);
+					ArcherBulletList.at(j) = NULL;
+					ArcherBulletList.erase(ArcherBulletList.begin() + j);
+					archerList.at(i)->SetBulletList(ArcherBulletList);
+				}
+			}
+		}
 	}
 }
 
@@ -472,6 +500,10 @@ void Game::Render_ChooseMenu()
 void Game::Render_PauseMenu()
 {
 	//CommonFunc::clearRenderer();
+	if (Mix_PlayingMusic() == 1) {
+		Mix_PauseMusic();
+	}
+	fps.pause();
 	menuList.at(0).RenderPauseMenu();
 	CommonFunc::renderPresent();
 }
@@ -493,11 +525,11 @@ void Game::RenderGame()
 		GoToNextLevel();
 	}
 	RenderMap();
-	RenderSkeleton();
+	RenderUndead();
 	RenderBullet();
 	
 	FPSCounter();
-	skeCounter();
+	killCounter();
 	if (levelSTT == 1) RenderBoss();
 	if (!secret_)
 	{
@@ -507,7 +539,9 @@ void Game::RenderGame()
 	else
 	{
 		RenderSecret();
+		menuList.at(0).RenderMainGame(secretList.at(0));
 		RenderName();
+		
 	}
 	
 	if (playerList.at(0).getDead() || secretList.at(0).getDead() || BossList.at(0).GetDead())
@@ -539,11 +573,13 @@ void Game::CleanGame()
 {
 	SDL_DestroyTexture(HunterText);
 	SDL_DestroyTexture(UndeadText);
+	SDL_DestroyTexture(ArcherText);
 	SDL_DestroyTexture(TileSetText);
 	SDL_DestroyTexture(BgText);
 	SDL_DestroyTexture(DemonText);
 	SDL_DestroyTexture(ButtonText);
 	SDL_DestroyTexture(BulletText);
+	SDL_DestroyTexture(ArrowText);
 	SDL_DestroyTexture(SecretText);
 	SDL_DestroyTexture(HelpText);
 	SDL_DestroyTexture(NameText);
@@ -563,8 +599,8 @@ void Game::CleanGame()
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		Mix_FreeChunk(skeletonSFX[i]);
-		skeletonSFX[i] = NULL;
+		Mix_FreeChunk(undeadSFX[i]);
+		undeadSFX[i] = NULL;
 	}
 	for (int i = 0; i < 5; i++)
 	{
@@ -576,19 +612,27 @@ void Game::CleanGame()
 		Mix_FreeChunk(menuSFX[i]);
 		menuSFX[i] = NULL;
 	}
-	if (!skeletonList.empty())
+	if (!undeadList.empty())
 	{
-		for (int i = skeletonList.size() - 1; i >= 0; i--) {
-			delete skeletonList.at(i);
-			skeletonList.at(i) = NULL;
-			skeletonList.erase(skeletonList.begin() + i);
+		for (int i = undeadList.size() - 1; i >= 0; i--) {
+			delete undeadList.at(i);
+			undeadList.at(i) = NULL;
+			undeadList.erase(undeadList.begin() + i);
 		}
 	}
-
+	if (!archerList.empty())
+	{
+		for (int i = archerList.size() - 1; i >= 0; i--) {
+			delete archerList.at(i);
+			archerList.at(i) = NULL;
+			archerList.erase(archerList.begin() + i);
+		}
+	}
 	
 
 	SecretText = NULL;
 	BulletText = NULL;
+	ArrowText = NULL;
 	BgText = NULL;
 	DemonText = NULL;
 	HelpText = NULL;
@@ -596,6 +640,7 @@ void Game::CleanGame()
 	ButtonText = NULL;
 	HunterText = NULL;
 	UndeadText = NULL;
+	ArcherText = NULL;
 	TileSetText = NULL;
 }
 
@@ -606,15 +651,23 @@ void Game::ResetGame()
 	camera.x = 0;
 	camera.y = 0;
 	levelSTT = 0;
-	skeletonCount = 0;
+	undeadCount = 0;
 
 
-	if (!skeletonList.empty())
+	if (!undeadList.empty())
 	{
-		for (int i = skeletonList.size() - 1; i >= 0; i--) {
-			delete skeletonList.at(i);
-			skeletonList.at(i) = NULL;
-			skeletonList.erase(skeletonList.begin() + i);
+		for (int i = undeadList.size() - 1; i >= 0; i--) {
+			delete undeadList.at(i);
+			undeadList.at(i) = NULL;
+			undeadList.erase(undeadList.begin() + i);
+		}
+	}
+	if (!archerList.empty())
+	{
+		for (int i = archerList.size() - 1; i >= 0; i--) {
+			delete archerList.at(i);
+			archerList.at(i) = NULL;
+			archerList.erase(archerList.begin() + i);
 		}
 	}
 
@@ -636,12 +689,20 @@ void Game::ResetGame()
 void Game::GoToNextLevel()
 {
 	levelSTT = 1;
-	if (!skeletonList.empty())
+	if (!undeadList.empty())
 	{
-		for (int i = skeletonList.size() - 1; i >= 0; i--) {
-			delete skeletonList.at(i);
-			skeletonList.at(i) = NULL;
-			skeletonList.erase(skeletonList.begin() + i);
+		for (int i = undeadList.size() - 1; i >= 0; i--) {
+			delete undeadList.at(i);
+			undeadList.at(i) = NULL;
+			undeadList.erase(undeadList.begin() + i);
+		}
+	}
+	if (!archerList.empty())
+	{
+		for (int i = archerList.size() - 1; i >= 0; i--) {
+			delete archerList.at(i);
+			archerList.at(i) = NULL;
+			archerList.erase(archerList.begin() + i);
 		}
 	}
 	nextlevel_ = false;

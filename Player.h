@@ -12,14 +12,15 @@
 
 #include "RenderWindow.h"
 #include "Entity.h"
-#include "Skeleton.h"
+#include "Undead.h"
 #include "BOSS.h"
 
 
 
 class Game_Map;
-class Skeleton;
+class Undead;
 class Boss;
+class Archer;
 //class Entity {};
 
 class Player : public Entity
@@ -40,7 +41,7 @@ public:
 	void HandleInput(SDL_Event& events, Mix_Chunk* p_playerSFX[]);
 	void HandleCamera(SDL_Rect& camera, int& p_levelSTT, bool& p_nextlevel, int& p_skeCount);
 
-	void Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>& levelList, Boss& p_boss, Mix_Chunk* p_playerSFX[]);// 
+	void Update(std::vector<Undead*>& undeadList, std::vector<Archer*>& archerList, std::vector<Game_Map>& levelList, Boss& p_boss, Mix_Chunk* p_playerSFX[]);// 
 
 	void Attack();
 	void Jump();
@@ -50,7 +51,7 @@ public:
 
 	bool getDead() { return death_; };
 
-	void GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chunk* p_playerSFX[]);
+	void GetHit(std::vector<Undead*>& undeadList, std::vector<Archer*>& archerList, Boss& p_boss, Mix_Chunk* p_playerSFX[]);
 
 	bool isAttacking();
 	void HandleCamera(); // chưa biết làm gì

@@ -44,6 +44,18 @@ Secret::Secret(float p_x, float p_y, SDL_Texture* p_text) : Entity(p_x, p_y, p_t
 	{
 		restClips[i] = { i * FRAME_WIDTH, 7 * FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT };
 	}
+	for (int i = 0; i < SPECIAL_ATTACKING_ANIMATION_FRAME; i++)
+	{
+		specialAttackingClips[i] = { i * FRAME_WIDTH, 8 * FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT };
+	}
+	for (int i = 0; i < BEINGHIT_ANIMATION_FRAME; i++)
+	{
+		beinghitClips[i] = { i * FRAME_WIDTH, 9 * FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT };
+	}
+	for (int i = 0; i < SPELL_ANIMATION_FRAME; i++)
+	{
+		spellClips[i] = { i * FRAME_WIDTH, 10 * FRAME_HEIGHT, FRAME_WIDTH, FRAME_HEIGHT };
+	}
 }
 
 void Secret::HandleInput(SDL_Event& events, Mix_Chunk* p_secretSFX[])
@@ -82,15 +94,15 @@ void Secret::HandleInput(SDL_Event& events, Mix_Chunk* p_secretSFX[])
 			case SDLK_q:
 				rest_ = false;
 				restCounter = 0;
-				if (!attack_ && shieldBuffCooldown == 0)
+				if (!attack_ && !specialAttack_ && !spell_ && shieldBuffCooldown == 0)
 				{
 					shieldBuff_ = true;
 					shieldBuffCooldown = 100;
 					Mix_PlayChannel(-1, p_secretSFX[spellSFX], 0);
 				}
 				break;
-			case SDLK_j:
-				Attack();
+			case SDLK_e:
+				SpecialAttack();
 
 				break;
 			case SDLK_r: // nhảy lên
@@ -99,6 +111,9 @@ void Secret::HandleInput(SDL_Event& events, Mix_Chunk* p_secretSFX[])
 				{
 					rest_ = true;
 				}
+				break;
+			case SDLK_c:
+				Spell();
 				break;
 			default:
 				break;
@@ -142,8 +157,8 @@ void Secret::HandleInput(SDL_Event& events, Mix_Chunk* p_secretSFX[])
 			else if (events.button.button == SDL_BUTTON_RIGHT)
 			{
 				rest_ = false;
-				restCounter = 0;
-				if (!attack_)
+				//restCounter = 0;
+				if (!attack_ && !specialAttack_ && !spell_)
 				{
 					Shield();
 				}
@@ -208,16 +223,33 @@ void Secret::Attack()
 {
 	//attackCounter = 0;
 	rest_ = false;
-	restCounter = 0;
+	//restCounter = 0;
 	if (attack_)
 	{
 		combo_ = true;
 	}
 	else combo_ = false;
-	if (!death_ && !run_ && !attack_) attack_ = true;
+	if (!death_ && !run_ && !attack_ && !specialAttack_ && !spell_) attack_ = true;
 
 
 
+}
+
+void Secret::SpecialAttack()
+{
+	rest_ = false;
+	//restCounter = 0;
+	if (!death_ && !specialAttack_ && !attack_ && !spell_) specialAttack_ = true;
+}
+
+void Secret::Spell()
+{
+	rest_ = false;
+	if (!death_ && !specialAttack_ && !attack_ && !run_ && !spell_ && spellCooldown == 0)
+	{
+		spell_ = true;
+	}
+	//if (!death_ && !)
 }
 
 void Secret::Shield()
@@ -251,11 +283,11 @@ void Secret::Gravity()
 	else y_val_ = GRAVITY;
 }
 
-void Secret::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>& levelList, Boss& p_boss, Mix_Chunk* p_secretSFX[])
+void Secret::Update(std::vector<Undead*>& undeadList, std::vector<Archer*>& archerList, std::vector<Game_Map>& levelList, Boss& p_boss, Mix_Chunk* p_secretSFX[])
 {
 	Gravity();
 
-	if (!death_) GetHit(skeletonList, p_boss, p_secretSFX);
+	if (!death_) GetHit(undeadList, archerList, p_boss, p_secretSFX);
 
 	//x_val_ += PLAYER_VAL;
 	if (!death_ && on_ground_ && x_val_ == 0 && !shield_ && !shieldBuff_)
@@ -299,7 +331,7 @@ void Secret::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>&
 
 
 	//di chuyển theo x
-	if (!death_ && !shield_ && !shieldBuff_)
+	if (!death_ && !shield_ && !shieldBuff_ && !specialAttack_ && !spell_)
 	{
 		x_ += x_val_;
 		Collision.x = getX() + 80;
@@ -350,7 +382,7 @@ void Secret::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>&
 	if (CommonFunc::checkToMap(Collision, levelList, on_ground_, groundSTT, levelSTT)) {
 		if (y_val_ > 0)
 		{
-			y_ = levelList.at(levelSTT).getTilesList().at(groundSTT)->getY() - 64 - 32;
+			y_ = levelList.at(levelSTT).getTilesList().at(groundSTT)->getY() - 96;
 			if (fall_)
 			{
 				on_ground_ = true;
@@ -358,7 +390,7 @@ void Secret::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>&
 				Mix_PlayChannel(-1, p_secretSFX[landSFX], 0);
 			}
 		}
-		else if (y_val_ < 0 && (levelList.at(levelSTT).getTilesList().at(groundSTT - 565 * 2)->getType() <= 60 || levelList.at(levelSTT).getTilesList().at(groundSTT - 565 * 2 + 1)->getType() <= 60))
+		else if (y_val_ < 0)
 		{
 			y_ = levelList.at(levelSTT).getTilesList().at(groundSTT - 565 * 2)->getY() - 48;
 			y_val_ = 0;
@@ -371,10 +403,23 @@ void Secret::Update(std::vector<Skeleton*>& skeletonList, std::vector<Game_Map>&
 		death_ = true;
 		Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
 	}
+	if ((levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() >= 76 && levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() < 83) || (levelList.at(levelSTT).getTilesList().at(groundSTT + 1)->getType() >= 76 && levelList.at(levelSTT).getTilesList().at(groundSTT + 1)->getType() < 80))
+	{
+		if (!jump_)
+		{
+			y_ = levelList.at(levelSTT).getTilesList().at(groundSTT)->getY() - 96;
+		}
 
+		if (fall_)
+		{
+			on_ground_ = true;
+			doublejump_ = false;
+			Mix_PlayChannel(-1, p_secretSFX[landSFX], 0);
+		}
+	}
 	if (down_)
 	{
-		if (levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() >= 76 && levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() <= 82 && levelList.at(levelSTT).getTilesList().at(groundSTT + 1)->getType() >= 76 && levelList.at(levelSTT).getTilesList().at(groundSTT + 1)->getType() <= 82)
+		if ((levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() >= 76 && levelList.at(levelSTT).getTilesList().at(groundSTT)->getType() <= 82) && (levelList.at(levelSTT).getTilesList().at(groundSTT + 1)->getType() >= 76 && levelList.at(levelSTT).getTilesList().at(groundSTT + 1)->getType() <= 82)) 
 		{
 			fall_ = true;
 			on_ground_ = false;
@@ -397,19 +442,31 @@ bool Secret::isAttacking()
 	else return false;
 }
 
-void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chunk* p_secretSFX[])
+bool Secret::isSpecialAttacking()
 {
-	for (int i = 0; i < skeletonList.size(); i++)
+	if (specialAttackCounter >= 18 && specialAttackCounter <= 20)
 	{
-		/*
-		if (skeletonList.at(i)->getDistance() <= 32 && skeletonList.at(i)->isAttacking() && !roll_)
+		return true;
+	}
+	else return false;
+}
+
+bool Secret::isSpelling()
+{
+	if (spellCounter / 3 >= 26 && spellCounter / 3 <= 29)
+	{
+		return true;
+	}
+	else return false;
+}
+
+void Secret::GetHit(std::vector<Undead*>& undeadList, std::vector<Archer*>& archerList, Boss& p_boss, Mix_Chunk* p_secretSFX[])
+{
+	for (int i = 0; i < undeadList.size(); i++)
+	{
+		if (undeadList.at(i) != NULL && undeadList.at(i)->isAttacking() && undeadList.at(i)->getFlip() == SDL_FLIP_NONE)
 		{
-			death_ = true;
-		}
-		*/
-		if (skeletonList.at(i) != NULL && skeletonList.at(i)->isAttacking() && skeletonList.at(i)->getFlip() == SDL_FLIP_NONE)
-		{
-			SDL_Rect a = { skeletonList.at(i)->getCollision().x + 16, skeletonList.at(i)->getCollision().y, 32, 32 };
+			SDL_Rect a = { undeadList.at(i)->getCollision().x + 16, undeadList.at(i)->getCollision().y, 32, 32 };
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				
@@ -419,9 +476,9 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 					shieldCounter = 7 * 2;
 					//death_ = false;
 				}
-				else if (!parry_ && !shieldBuffParry_)
+				else if (!parry_ && !shieldBuffParry_ && !spell_)
 				{
-					death_ = true;
+					beinghit_ = true;
 					Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
 				}
 				
@@ -430,9 +487,9 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 			}
 		}
 
-		if (skeletonList.at(i) != NULL && skeletonList.at(i)->isAttacking() && skeletonList.at(i)->getFlip() == SDL_FLIP_HORIZONTAL)
+		if (undeadList.at(i) != NULL && undeadList.at(i)->isAttacking() && undeadList.at(i)->getFlip() == SDL_FLIP_HORIZONTAL)
 		{
-			SDL_Rect a = { skeletonList.at(i)->getCollision().x - 32, skeletonList.at(i)->getCollision().y, 32, 32 };
+			SDL_Rect a = { undeadList.at(i)->getCollision().x - 32, undeadList.at(i)->getCollision().y, 32, 32 };
 			if (CommonFunc::checkCollision(a, getCollision()))
 			{
 				//death_ = true;
@@ -443,9 +500,9 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 					shieldCounter = 7 * 2;
 					//death_ = false;
 				}
-				else if (!parry_ && !shieldBuffParry_)
+				else if (!parry_ && !shieldBuffParry_ && !spell_)
 				{
-					death_ = true;
+					beinghit_ = true;
 					Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
 				}
 				
@@ -453,12 +510,67 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 			}
 		}
 	}
-	/*
-		if (p_boss.isAttacking() && ((p_boss.getFlip() == SDL_FLIP_HORIZONTAL && p_boss.getDistance() <= 6 * TILE_WIDTH && (getX() + 48 - (p_boss.getX() + 112) <= 64 )) || (p_boss.getFlip() == SDL_FLIP_NONE && p_boss.getDistance() <= 9 * TILE_WIDTH && (getX() + 48 - (p_boss.getX() + 112) >= 0))) && !roll_)
+	for (int i = 0; i < archerList.size(); i++)
+	{
+		for (int j = 0; j < archerList.at(i)->GetBulletList().size(); j++)
 		{
-			death_ = true;
+			if (archerList.at(i)->GetBulletList().at(j) != NULL)
+			{
+				if (CommonFunc::checkCollision(getCollision(), archerList.at(i)->GetBulletList().at(j)->getCollision()))
+				{
+					if (!shield_ && !shieldBuffParry_ && !spell_)
+					{
+						beinghit_ = true;
+						Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
+					}
+					else if(shieldBuffParry_)
+					{
+						shieldBuffParry_ = false;
+						Bullet* bullet = new Bullet(getCollision().x + SECRET_WIDTH, getCollision().y, NULL);
+						if (archerList.at(i)->GetBulletList().at(j)->getFlip() == SDL_FLIP_NONE)
+						{
+							bullet->setFlip(SDL_FLIP_HORIZONTAL);
+						}
+						else
+						{
+							bullet->setFlip(SDL_FLIP_NONE);
+						}
+						
+						bullet->setSize_Position(getCollision().x, 16);
+						bullet->setType(Bullet::NORMAL);
+						bullet->setMove(true);
+						bulletList.push_back(bullet);
+					}
+					else if (shield_)
+					{
+						if (getFlip() != archerList.at(i)->GetBulletList().at(j)->getFlip())
+						{
+							Bullet* bullet = new Bullet(getCollision().x + SECRET_WIDTH, getCollision().y, NULL);
+							if (archerList.at(i)->GetBulletList().at(j)->getFlip() == SDL_FLIP_NONE)
+							{
+								bullet->setFlip(SDL_FLIP_HORIZONTAL);
+							}
+							else
+							{
+								bullet->setFlip(SDL_FLIP_NONE);
+							}
+
+							bullet->setSize_Position(getCollision().x, 16);
+							bullet->setType(Bullet::NORMAL);
+							bullet->setMove(true);
+							bulletList.push_back(bullet);
+						}
+						else
+						{
+							beinghit_ = true;
+							Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
+						}
+					}
+					archerList.at(i)->GetBulletList().at(j)->setMove(false);
+				}
+			}
 		}
-		*/
+	}
 	if (p_boss.isAttacking() && p_boss.getFlip() == SDL_FLIP_NONE)
 	{
 		SDL_Rect a = { p_boss.getCollision().x + 64, p_boss.getCollision().y, 80, 80 };
@@ -470,9 +582,9 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 				parry_ = true;
 				shieldCounter = 7 * 2;
 			}
-			else if (!parry_ && !shieldBuffParry_)
+			else if (!parry_ && !shieldBuffParry_ && !spell_)
 			{
-				death_ = true;
+				beinghit_ = true;
 				Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
 			}
 		}
@@ -488,9 +600,9 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 				parry_ = true;
 				shieldCounter = 7 * 2;
 			}
-			else if (!parry_ && !shieldBuffParry_)
+			else if (!parry_ && !shieldBuffParry_ && !spell_)
 			{
-				death_ = true;
+				beinghit_ = true;
 				Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
 			}
 		}
@@ -499,9 +611,9 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 	if (p_boss.isSmashing())
 	{
 		SDL_Rect a = { p_boss.getCollision().x, p_boss.getCollision().y + 64,80, 16 };
-		if (CommonFunc::checkCollision(a, getCollision()))
+		if (CommonFunc::checkCollision(a, getCollision()) && !spell_)
 		{
-			death_ = true;
+			beinghit_ = true;
 			Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
 		}
 	}
@@ -510,27 +622,33 @@ void Secret::GetHit(std::vector<Skeleton*>& skeletonList, Boss& p_boss, Mix_Chun
 	{
 		if (p_boss.GetBulletList().at(i) != NULL)
 		{
-			if (CommonFunc::checkCollision(p_boss.GetBulletList().at(i)->getCollision(), getCollision()))
+			if (CommonFunc::checkCollision(p_boss.GetBulletList().at(i)->getCollision(), getCollision()) && !spell_)
 			{
-				death_ = true;
+				beinghit_ = true;
 				Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
 				p_boss.GetBulletList().at(i)->setMove(false);
 			}
 		}
 
 	}
+
+	if (health_ <= 0)
+	{
+		death_ = true;
+		Mix_PlayChannel(-1, p_secretSFX[deathSFX], 0);
+	}
 }
 
 void Secret::Render(SDL_Rect& camera, Mix_Chunk* p_secretSFX[])
 {
-	if (idle_ && !attack_ && !death_ && !rest_)
+	if (idle_ && !attack_ && !death_ && !rest_ && !specialAttack_ && !beinghit_ && !spell_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &idlingClips[idleCounter / 4], &camera, 0, NULL, getFlip());
 		idleCounter++;
 		if (idleCounter / 4 >= IDLING_ANIMATION_FRAME) idleCounter = 0;
 	}
 	else idleCounter = 0;
-	if (run_ && !attack_ && !death_ && !shieldBuff_)
+	if (run_ && !attack_ && !death_ && !shieldBuff_ && !specialAttack_ && !beinghit_ && !spell_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &runningClips[runCounter / 2], &camera, 0, NULL, getFlip());
 		if (runCounter % 4 == 0)
@@ -542,7 +660,7 @@ void Secret::Render(SDL_Rect& camera, Mix_Chunk* p_secretSFX[])
 	}
 	else runCounter = 0;
 
-	if (jump_ && !attack_ && !shield_ && !shieldBuff_)
+	if (jump_ && !attack_ && !shield_ && !shieldBuff_ && !specialAttack_ && !beinghit_ && !spell_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &jumpingClips[jumpCounter / 4], &camera, 0, NULL, getFlip());
 		jumpCounter++;
@@ -552,7 +670,7 @@ void Secret::Render(SDL_Rect& camera, Mix_Chunk* p_secretSFX[])
 		}
 	}
 	else jumpCounter = 0;
-	if (fall_ && !attack_ && !shield_ && !shieldBuff_)
+	if (fall_ && !attack_ && !shield_ && !shieldBuff_ && !specialAttack_ && !beinghit_ && !spell_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &fallingClips[fallCounter / 4], &camera, 0, NULL, getFlip());
 		fallCounter++;
@@ -591,6 +709,43 @@ void Secret::Render(SDL_Rect& camera, Mix_Chunk* p_secretSFX[])
 		}
 	}
 	else attackCounter = 0;
+
+	if (specialAttack_ && !shield_ && !shieldBuff_ && !death_)
+	{
+		CommonFunc::renderAnimation(text_, x_, y_, &specialAttackingClips[specialAttackCounter], &camera, 0, NULL, getFlip());
+		specialAttackCounter++;
+		if (specialAttackCounter == 2) Mix_PlayChannel(-1, p_secretSFX[spellSFX], 0);
+		if (specialAttackCounter == 18) Mix_PlayChannel(-1, p_secretSFX[attackSFX], 0);
+		if (specialAttackCounter >= SPECIAL_ATTACKING_ANIMATION_FRAME)
+		{
+			specialAttack_ = false;
+			specialAttackCounter = 0;
+		}
+	}
+	else specialAttackCounter = 0;
+
+	if (spell_ && !shield_ && !shieldBuff_ && !death_)
+	{
+		CommonFunc::renderAnimation(text_, x_, y_, &spellClips[spellCounter / 3], &camera, 0, NULL, getFlip());
+		spellCounter++;
+		if (spellCounter / 3 >= 4 && spellCounter / 3 <= 29) Mix_PlayChannel(-1, p_secretSFX[spellSFX], 0);
+		if (spellCounter / 3 >= SPELL_ANIMATION_FRAME)
+		{
+			spell_ = false;
+			spellCounter = 0;
+			spellCooldown = 1000;
+			health_ = 3;
+		}
+	}
+	else
+	{
+		spellCounter = 0;
+		if (spellCooldown != 0)
+		{
+			spellCooldown--;
+		}
+	}
+
 	if (death_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &deathClips[deathCounter / 3], &camera, 0, NULL, getFlip());
@@ -648,6 +803,18 @@ void Secret::Render(SDL_Rect& camera, Mix_Chunk* p_secretSFX[])
 		}
 	}
 	else restCounter = 0;
+	if (beinghit_ && !attack_ && !specialAttack_ && !shield_ && !shieldBuff_)
+	{
+		CommonFunc::renderAnimation(text_, x_, y_, &beinghitClips[beinghitCounter], &camera, 0, NULL, getFlip());
+		beinghitCounter++;
+		if (beinghitCounter >= BEINGHIT_ANIMATION_FRAME)
+		{
+			beinghit_ = false;
+			health_--;
+			beinghitCounter = 0;
+		}
+	}
+	else beinghitCounter = 0;
 }
 
 void Secret::GoToNextLevel()
@@ -658,12 +825,15 @@ void Secret::GoToNextLevel()
 	//x_val_ = 0;
 	//y_val_ = 0;
 	shieldBuff_ = false;
+	specialAttack_ = false;
+	spell_ = false;
 	shield_ = false;
 	death_ = false;
 	final_ = false;
 	deathCounter = 0;
 	shieldCounter = 0;
 	shieldBuffCounter = 0;
+	spellCooldown = 0;
 	flip_type_ = SDL_FLIP_NONE;
 }
 
@@ -671,9 +841,11 @@ void Secret::ResetSecret()
 {
 	x_ = 16 * 16;
 	y_ = 20 * 16;
+	health_ = 3;
 	x_val_ = 0;
 	y_val_ = 0;
 	shieldBuff_ = false;
+	specialAttack_ = false;
 	shield_ = false;
 	death_ = false;
 	final_ = false;
@@ -681,6 +853,7 @@ void Secret::ResetSecret()
 	deathCounter = 0;
 	shieldCounter = 0;
 	shieldBuffCounter = 0;
+	spellCooldown = 0;
 	flip_type_ = SDL_FLIP_NONE;
 	levelSTT = 0;
 }

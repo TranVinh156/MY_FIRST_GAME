@@ -137,12 +137,6 @@ void Boss::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& lev
 		}
 		collision.y = getY() + 80;
 	}
-	//on_ground_ = true;
-	//std::cout << on_ground_ << std::endl;
-	//std::cout << groundSTT << std::endl;
-	//std::cout << distanceToPlayer << std::endl;
-	//std::cout << attack_ << std::endl;
-	//std::cout << levelSTT << std::endl;
 }
 
 void Boss::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_bossSFX[])
@@ -246,7 +240,7 @@ void Boss::MoveToPlayer(Player& p_player, Secret& p_secret, std::vector<Game_Map
 		
 	}
 
-	if (CommonFunc::checkCollision(p_secret.getCollision(), collision) && smashCoolDown == 0 && !attack_)
+	if (CommonFunc::checkCollision(p_secret.getCollision(), collision) && smashCoolDown == 0 && !attack_ && !spell_)
 	{
 		smash_ = true;
 		attack_ = false;
@@ -357,6 +351,29 @@ void Boss::GetHit(Player& p_player, Secret& p_secret, Mix_Chunk* p_bossSFX[])
 		}
 	}
 
+	if (p_secret.isSpecialAttacking() && p_secret.getFlip() == SDL_FLIP_NONE)
+	{
+		SDL_Rect a = { p_secret.getCollision().x + 16, p_secret.getCollision().y - 64, 80, 96 };
+
+		if (CommonFunc::checkCollision(a, getCollision()))
+		{
+			hurt_ = true;
+			boss_health_ -= 25;
+			Mix_PlayChannel(-1, p_bossSFX[hurtSFX], 0);
+
+		}
+	}
+	if (p_secret.isSpecialAttacking() && p_secret.getFlip() == SDL_FLIP_HORIZONTAL)
+	{
+		SDL_Rect a = { p_secret.getCollision().x - 80, p_secret.getCollision().y - 64, 80, 96 };
+		if (CommonFunc::checkCollision(a, getCollision()))
+		{
+			hurt_ = true;
+			boss_health_ -= 25;
+			Mix_PlayChannel(-1, p_bossSFX[hurtSFX], 0);
+
+		}
+	}
 	if (isAttacking() && p_secret.isParrying())
 	{
 		hurt_ = true;
@@ -457,7 +474,7 @@ void Boss::Render(SDL_Rect& camera, Mix_Chunk* p_bossSFX[])
 	}
 	else attackCounter = 0;
 
-	if (smash_ && !death_)
+	if (smash_ && !death_ && !spell_)
 	{
 		CommonFunc::renderAnimation(text_, x_, y_, &smashClips[smashCounter / 2], &camera, 0, NULL, getFlip());
 		smashCounter++;
@@ -476,7 +493,7 @@ void Boss::Render(SDL_Rect& camera, Mix_Chunk* p_bossSFX[])
 		{
 			spellCounter = 0;
 			SpellCoolDown = 0;
-			//spell_ = false;
+			spell_ = false;
 		}
 	}
 }

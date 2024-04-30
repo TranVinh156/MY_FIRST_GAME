@@ -12,11 +12,11 @@
 struct path_pos
 {
 	const char* path;
-	std::vector<int> skeleton_pos;
-	path_pos(const char* p_path, std::vector<int> p_skeleton_pos)
+	std::vector<int> undead_pos;
+	path_pos(const char* p_path, std::vector<int> p_undead_pos)
 	{
 		path = p_path;
-		skeleton_pos = p_skeleton_pos;
+		undead_pos = p_undead_pos;
 	}
 };
 
@@ -42,7 +42,7 @@ public:
 	void HandleGameInput(SDL_Event& event);
 	
 	void FPSCounter();
-	void skeCounter();
+	void killCounter();
 	void RenderName();
 
 	void RenderGame();
@@ -50,7 +50,7 @@ public:
 	void RenderBoss();
 	void RenderPlayer();
 	void RenderSecret();
-	void RenderSkeleton();
+	void RenderUndead();
 	void RenderMap();
 	void Render_MainMenu();
 	void Render_ChooseMenu();
@@ -69,6 +69,7 @@ private:
 	SDL_Texture* HunterText = NULL;
 	SDL_Texture* SecretText = NULL;
 	SDL_Texture* UndeadText = NULL;
+	SDL_Texture* ArcherText = NULL;
 	SDL_Texture* TileSetText = NULL;
 	SDL_Texture* DemonText = NULL;
 	SDL_Texture* BgText = NULL;
@@ -76,28 +77,30 @@ private:
 	SDL_Texture* NameText = NULL;
 	SDL_Texture* ButtonText = NULL;
 	SDL_Texture* BulletText = NULL;
+	SDL_Texture* ArrowText = NULL;
 	
 	Mix_Music* bgMusic = NULL;
 	Mix_Chunk* bossMusic = NULL;
 	Mix_Chunk* playerSFX[5] = { NULL };
 	Mix_Chunk* secretSFX[6] = { NULL };
-	Mix_Chunk* skeletonSFX[4] = { NULL };
+	Mix_Chunk* undeadSFX[4] = { NULL };
 	Mix_Chunk* bossSFX[5] = { NULL };
 	Mix_Chunk* menuSFX[2] = { NULL };
 	ImpTimer fps;
 	std::stringstream timeText;
-	std::stringstream skeText;
+	std::stringstream killText;
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	SDL_Rect TileClip[TOTAL_TILE_SPRITE];
 
 	std::vector <path_pos> mapList;
 	std::vector <Player> playerList;
 	std::vector <Secret> secretList;
-	std::vector <Skeleton*> skeletonList;
+	std::vector <Undead*> undeadList;
+	std::vector <Archer*> archerList;
 	std::vector <Game_Map> levelList;
 	std::vector <Menu> menuList;
 	std::vector <Boss> BossList;
-	std::vector <Bullet*> bulletList;
+	//std::vector <Bullet*> bulletList;
 	
 	
 	int levelSTT = 0;
@@ -105,7 +108,7 @@ private:
 	bool nextlevel_ = false;
 	bool secret_ = true;
 	bool fullScreen_ = false;
-	int skeletonCount = 0;
+	int undeadCount = 0;
 	int countedFrames = 0;
 	int avgFPS = 0;
 	int frameStart;

@@ -27,6 +27,8 @@ public:
 	void RenderHelpMenu();
 	void RenderPauseMenu();
 	void RenderPlayerNameMenu();
+	void RenderMainGame(Secret& p_secret);
+
 	bool isName() const { return name_; };
 	bool isMenu() const { return menu_; };
 	bool isChoose() const { return choose_; };
@@ -40,10 +42,14 @@ private:
 	const int BUTTON_WIDTH = 128;
 	const int BUTTON_HEIGHT = 128;
 
-	
+	const int HEALTH_BAR_WIDTH = 192;
+	const int HEALTH_BAR_HEIGHT = 96;
+
 	static const int TYPE_BUTTON = 3;
+	static const int MAX_HEALTH_BAR = 4;
 	static const int HUNTER_ANIMATION_FRAME = 10;
 	static const int SECRET_ANIMATION_FRAME = 6;
+
 	int hunter_frame = 0;
 	int secret_frame = 0;
 	int delay_ = 150;
@@ -57,6 +63,7 @@ private:
 	SDL_Rect pauseButton[TYPE_BUTTON];
 	SDL_Rect hunterButton[TYPE_BUTTON][HUNTER_ANIMATION_FRAME]; ///
 	SDL_Rect YenButton[TYPE_BUTTON][SECRET_ANIMATION_FRAME];
+	SDL_Rect HealthBar[MAX_HEALTH_BAR];
 	//SDL_Rect YenButton[TYPE_BUTTON];
 	
 	// nut main menu
@@ -81,6 +88,7 @@ private:
 	bool reset_ = false;
 	bool name_ = true;
 	bool unlock_ = false;
+//	bool play_ = false;
 	int full_screen_ = 1;
 	std::string playerName = "";
 	bool secret_ = false;
@@ -92,6 +100,7 @@ private:
 	bool pressed[7] = { false }; 
 	bool secretCode_[16] = { false };
 	bool sfx_[7] = { false };
+	int health_;
 };
 
 

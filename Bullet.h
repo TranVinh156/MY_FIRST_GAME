@@ -21,7 +21,8 @@ public:
 	void setFlip(SDL_RendererFlip p_flip);
 	void setMove(bool p_move) { moving = p_move; }
 	void setType(const int& p_type) { bulletType = p_type; }
-	void setSize_Position(const int& p_playerX);
+	void setSize_Position(const int& p_playerX, int p_height = 32);
+	void setXVal(float p_x_val) { x_val_ = p_x_val; };
 	void Render(SDL_Rect& camera, SDL_Texture* p_bulletText);
 
 

@@ -366,66 +366,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 
 		//}
 	}
-	else // mod
-	{
-		//for (int i = 0; i < levelList.size(); i++)
-		//{
-			// cần sửa lại
-			if (box.x >= levelList.at(levelSTT).getX() && box.x + box.w < levelList.at(levelSTT).getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT)
-			{
-
-				int cot_left = (box.x - levelList.at(levelSTT).getX()) / TILE_WIDTH;
-				int cot_right = cot_left + 1;
-				int dong_up = box.y / TILE_HEIGHT;
-
-				int dong_down = dong_up + 1;
-
-				int stt1 = dong_up * 565 + cot_left;
-				int stt2 = dong_up * 565 + cot_right;
-				int stt3 = dong_down * 565 + cot_left;
-				int stt4 = dong_down * 565 + cot_right;
-				//int stt5 = dong_mid * 45 + cot_left;
-				//int stt6 = dong_mid * 45 + cot_right;
-
-				if ((levelList.at(levelSTT).getTilesList().at(stt1)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt1)->getType() <= 59))
-				{
-					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt1)->getCollision()))
-					{
-						check = true;
-					}
-				}
-
-				if ((levelList.at(levelSTT).getTilesList().at(stt3)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt3)->getType() <= 59))
-				{
-					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt3)->getCollision()))
-					{
-						check = true;
-					}
-				}
-				if ((levelList.at(levelSTT).getTilesList().at(stt2)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt2)->getType() <= 59))
-				{
-					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt2)->getCollision()))
-					{
-						check = true;
-						//box.x -= 0.05;
-					}
-				}
-				if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() <= 59))
-				{
-					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt4)->getCollision()))
-					{
-						check = true;
-						//box.x -= 0.05;
-					}
-				}
-			}
-
-
-
-		//}
-	}
-	
-	
 	return check;
 }
 
@@ -502,7 +442,7 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, boo
 				else {
 					if ((levelList.at(levelSTT).getTilesList().at(stt1)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt1)->getType() <= 59))
 						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt1)->getCollision())) check = true;
-					if ((levelList.at(levelSTT).getTilesList().at(stt2)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt2)->getType() <= 90))
+					if ((levelList.at(levelSTT).getTilesList().at(stt2)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt2)->getType() <= 59))
 						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt2)->getCollision())) check = true;
 					if ((levelList.at(levelSTT).getTilesList().at(stt3)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt3)->getType() <= 59))
 						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt3)->getCollision())) check = true;
@@ -510,7 +450,7 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, boo
 						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt5)->getCollision())) check = true;
 					if ((levelList.at(levelSTT).getTilesList().at(stt6)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt6)->getType() <= 59))
 						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt6)->getCollision())) check = true;
-					if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() <= 90))
+					if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() <= 59))
 						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt4)->getCollision())) check = true;
 					if ((levelList.at(levelSTT).getTilesList().at(stt2)->getType() > 90) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() > 90)) on_ground = false;
 					if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() > 90) && (levelList.at(levelSTT).getTilesList().at(stt2)->getType() <= 90) && box.x + box.w <= levelList.at(levelSTT).getTilesList().at(stt2)->getX()) on_ground = false;
@@ -521,46 +461,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, boo
 			}
 		//}
 	}
-	else // mod
-	{
-		//for (int i = 0; i < levelList.size(); i++) {
-			if (box.x >= levelList.at(levelSTT).getX() && box.x <= levelList.at(levelSTT).getX() + LEVEL_WIDTH && box.y >= 0 && box.y + 16 < LEVEL_HEIGHT) {
-
-				// phải tính lại
-				int cot_left = (box.x - levelList.at(levelSTT).getX()) / TILE_WIDTH;
-				int cot_right = cot_left + 1;
-				int dong_up = (box.y) / TILE_HEIGHT;
-				int dong_down = dong_up + 1;
-
-
-				int stt1 = dong_up * 565 + cot_left;
-				int stt3 = dong_up * 565 + cot_right;
-				int stt4 = dong_down * 565 + cot_left;
-				int stt2 = dong_down * 565 + cot_right;
-
-
-				if ((box.x < levelList.at(levelSTT).getX() && box.x + box.w > levelList.at(levelSTT).getX()) || (box.x < levelList.at(levelSTT).getX() + LEVEL_WIDTH && box.x + box.w > levelList.at(levelSTT).getX() + LEVEL_WIDTH)) {
-					on_ground = false;
-				}
-				else {
-					if ((levelList.at(levelSTT).getTilesList().at(stt1)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt1)->getType() <= 59))
-						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt1)->getCollision())) check = true;
-					if ((levelList.at(levelSTT).getTilesList().at(stt2)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt2)->getType() <= 90))
-						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt2)->getCollision())) check = true;
-					if ((levelList.at(levelSTT).getTilesList().at(stt3)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt3)->getType() <= 59))
-						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt3)->getCollision())) check = true;
-					if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() <= 90))
-						if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt4)->getCollision())) check = true;
-					if ((levelList.at(levelSTT).getTilesList().at(stt2)->getType() > 90) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() > 90)) on_ground = false;
-					if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() > 90) && (levelList.at(levelSTT).getTilesList().at(stt2)->getType() <= 90) && box.x + box.w <= levelList.at(levelSTT).getTilesList().at(stt2)->getX()) on_ground = false;
-				}
-
-				groundSTT = stt4;
-				//levelSTT = i;
-			}
-		//}
-	}
-
 	return check;
 }
 
