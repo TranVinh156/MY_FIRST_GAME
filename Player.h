@@ -59,8 +59,8 @@ public:
 	void Render(SDL_Rect& camera, Mix_Chunk* p_playerSFX[]);//SDL_Rect* p_camera); // Nhớ thêm camera
 	SDL_Rect getCollision() { return Collision; };
 	int getLevelSTT() const { return levelSTT; };
-	void GoToNextLevel();
-	void ResetPlayer();
+	void GoToNextLevel(std::vector<Game_Map> levelList);
+	void ResetPlayer(std::vector<Game_Map> levelList);
 
 private:
 	//float x_pos_;

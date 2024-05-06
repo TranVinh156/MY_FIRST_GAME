@@ -14,6 +14,9 @@
 #include <SDL_ttf.h>
 #include <vector>
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <algorithm>
 
 #include "Entity.h"
 #include "Gamemap.h"

@@ -138,7 +138,7 @@ void Player::HandleInput(SDL_Event& events, Mix_Chunk* p_playerSFX[])
 
 void Player::HandleCamera(SDL_Rect& camera, int& p_levelSTT, bool& p_nextlevel, int& p_skeCount)
 {
-	if (getX() + 48 >= LEVEL_WIDTH - SCREEN_WIDTH)
+	if (getX() + 48 >= LEVEL_WIDTH - SCREEN_WIDTH && levelSTT == 1)
 	{
 		camera.x = LEVEL_WIDTH - SCREEN_WIDTH;
 		final_ = true;
@@ -166,9 +166,9 @@ void Player::HandleCamera(SDL_Rect& camera, int& p_levelSTT, bool& p_nextlevel, 
 		camera.y = LEVEL_HEIGHT - camera.h;
 	}
 
-	if (getX() + 48 >= 4704 && p_levelSTT == 0 && p_skeCount >= 50)
+	if (getX() + 48 >= 8944 && p_levelSTT == 0 && p_skeCount >= 50)
 	{
-		GoToNextLevel();
+		//GoToNextLevel();
 		p_levelSTT = levelSTT;
 		p_nextlevel = true;
 	}
@@ -579,13 +579,11 @@ void Player::Render(SDL_Rect& camera, Mix_Chunk* p_playerSFX[])
 
 }
 
-void Player::GoToNextLevel()
+void Player::GoToNextLevel(std::vector<Game_Map> levelList)
 {
-	x_ = 16 * 16;
-	y_ = 63 * 16;
 	levelSTT = 1;
-	//x_val_ = 0;
-	//y_val_ = 0;
+	x_ = TILE_WIDTH * (levelList.at(levelSTT).GetPlayerPos() % 565) - 48;
+	y_ = TILE_HEIGHT * (levelList.at(levelSTT).GetPlayerPos() / 565) - 80;
 	death_ = false;
 	final_ = false;
 	deathCounter = 0;
@@ -593,10 +591,11 @@ void Player::GoToNextLevel()
 }
 
 
-void Player::ResetPlayer()
+void Player::ResetPlayer(std::vector<Game_Map> levelList)
 {
-	x_ = 16 * 16;
-	y_ = 21 * 16;
+	levelSTT = 0;
+	x_ = TILE_WIDTH * (levelList.at(levelSTT).GetPlayerPos() % 565) - 48;
+	y_ = TILE_HEIGHT * (levelList.at(levelSTT).GetPlayerPos() / 565) - 80;
 	x_val_ = 0;
 	y_val_ = 0;
 	death_ = false;
@@ -604,5 +603,5 @@ void Player::ResetPlayer()
 	down_ = false;
 	deathCounter = 0;
 	flip_type_ = SDL_FLIP_NONE;
-	levelSTT = 0;
+	
 }

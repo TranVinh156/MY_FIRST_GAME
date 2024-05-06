@@ -149,24 +149,19 @@ bool Game::LoadMedia()
 
 bool Game::CreateMap()
 {
-	path_pos level1("img/map/MapLevel1.1.tmx", {16433, 16442, 16449, 9107, 12509, 12520, 8561, 8575, 16467, 16479, 16490, 11435, 
-		18227, 22191, 29530, 29546, 26165, 22783, 22799, 28445, 28454, 22811, 30160, 
-		30172, 30183, 22836, 26238, 22853, 30202, 23273, 27238, 30627, 34576, 34588, 
-		34602, 23259, 23245, 26626, 28905, 28916, 34561, 34553, 38511, 46415, 43581, 
-		43571, 43561, 39609, 36224, 50896, 50882, 50866, 43530, 58770, 12497, 34088, 
-		34099, 26224, 25581, 46942, 50363, 50376, 50386, 50396, 46433, 46441, 42475, 
-		42492, 54327, 61667, 57717});
-	mapList.push_back(level1);
-	
-	path_pos level2("img/map/MapLevel2.1.tmx", { 28860, 28871, 23777, 35121, 38506, 42460, 42472, 46430, 46406, 53754, 53766, 53778
-		, 49819, 30076, 30086, 18773, 18788, 38030, 41994, 49338, 45384, 53295, 53271
-		, 60620, 60630, 60642, 56684, 19987, 19996, 23953, 27903, 21168, 23439, 23449
-		, 17222, 16676, 27443, 30829, 34792, 38733, 42697, 50038, 46087, 20693, 16738
-		, 12783, 15628, 20148, 20735, 24694, 20746, 16783, 19635, 15686, 14569, 11727
-		, 19088, 25345, 25322, 32687, 28734, 36636, 40022, 43978 });
-	mapList.push_back(level2);
-	
-	if (mapList.size() < 2)
+	pathMap level1_1("img/map/MapLevel1.tmx");
+	mapList.push_back(level1_1);
+	pathMap level1_2("img/map/MapLevel1.2.tmx");
+	mapList.push_back(level1_2);
+	pathMap level1_3("img/map/MapLevel1.3.tmx");
+	mapList.push_back(level1_3);
+	pathMap level2_1("img/map/MapLevel2.1.tmx");
+	mapList.push_back(level2_1);
+	pathMap level2_2("img/map/MapLevel2.2.tmx");
+	mapList.push_back(level2_2);
+	pathMap level2_3("img/map/MapLevel2.3.tmx");
+	mapList.push_back(level2_3);
+	if (mapList.size() < 6)
 	{
 		return false;
 	}
@@ -199,7 +194,18 @@ bool Game::CreateLevel()
 {
 	for (int i = 0; i < TOTAL_MAP; i++)
 	{
-		Game_Map level(0, 0, mapList.at(i).path, TileSetText);
+		int map;
+		if (i == 0)
+		{
+			map = std::rand() % 3;
+			//std::cout << map << std::endl;
+		}
+		else
+		{
+			map = std::rand() % 3 + 3;
+			//std::cout << map << std::endl;
+		}
+		Game_Map level(0, 0, mapList.at(map).path, TileSetText);
 		//level.SetUndeadPos(mapList.at(i).undead_pos);
 		levelList.push_back(level);
 	}
@@ -225,7 +231,7 @@ bool Game::CreateBoss()
 
 bool Game::CreatePlayer()
 {
-	Player Hunter(16 * 16, 21 * 16, HunterText);
+	Player Hunter(TILE_WIDTH * (levelList.at(levelSTT).GetPlayerPos() % 565) - 48, TILE_HEIGHT * (levelList.at(levelSTT).GetPlayerPos() / 565) - 80, HunterText);
 	playerList.push_back(Hunter);
 	if (playerList.size() < 0)
 	{
@@ -236,7 +242,7 @@ bool Game::CreatePlayer()
 
 bool Game::CreateSecret()
 {
-	Secret Yen(16 * 16, 20 * 16, SecretText);
+	Secret Yen(TILE_WIDTH * (levelList.at(levelSTT).GetPlayerPos() % 565) - 80, TILE_HEIGHT * (levelList.at(levelSTT).GetPlayerPos() / 565) - 96, SecretText);
 	secretList.push_back(Yen);
 	if (secretList.size() < 0)
 	{
@@ -256,6 +262,10 @@ bool Game::CreateUnDead()
 				undead->SetLevelSTT(levelSTT);
 				undeadList.push_back(undead);
 			}
+			
+		}
+		if (levelList.at(levelSTT).GetArcherPos().size() > 0)
+		{
 			for (int i = 0; i < levelList.at(levelSTT).GetArcherPos().size(); i++)
 			{
 				Archer* archer = new Archer(levelList.at(levelSTT).getX() + (levelList.at(levelSTT).GetArcherPos().at(i) % 565) * TILE_WIDTH - 32, levelList.at(levelSTT).getY() + (levelList.at(levelSTT).GetArcherPos().at(i) / 565) * TILE_HEIGHT - 48, ArcherText);
@@ -646,8 +656,7 @@ void Game::CleanGame()
 
 void Game::ResetGame()
 {
-	playerList.at(0).ResetPlayer();
-	secretList.at(0).ResetSecret();
+	
 	camera.x = 0;
 	camera.y = 0;
 	levelSTT = 0;
@@ -679,6 +688,8 @@ void Game::ResetGame()
 	CreateLevel();
 	CreateUnDead();
 	//CreateBoss();
+	playerList.at(0).ResetPlayer(levelList);
+	secretList.at(0).ResetSecret(levelList);
 	fps.stop();
 	fps.start();
 	frameStart = fps.getTicks();
@@ -705,6 +716,8 @@ void Game::GoToNextLevel()
 			archerList.erase(archerList.begin() + i);
 		}
 	}
+	playerList.at(0).GoToNextLevel(levelList);
+	secretList.at(0).GoToNextLevel(levelList);
 	nextlevel_ = false;
 	CreateUnDead();
 	//CreateBoss();

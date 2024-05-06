@@ -67,8 +67,8 @@ public:
 	{
 		shieldBuffParry_ = p_buffparry;
 	}
-	void GoToNextLevel();
-	void ResetSecret();
+	void GoToNextLevel(std::vector<Game_Map> levelList);
+	void ResetSecret(std::vector<Game_Map> levelList);
 	void SetBulletList(std::vector<Bullet*> p_bulletList) { this->bulletList = p_bulletList; };
 	std::vector<Bullet*> GetBulletList() { return bulletList; };
 private:
@@ -88,6 +88,8 @@ private:
 	static const int SPECIAL_ATTACKING_ANIMATION_FRAME = 28;
 	static const int BEINGHIT_ANIMATION_FRAME = 5;
 	static const int SPELL_ANIMATION_FRAME = 35;
+	static const int HEALING_ANIMATION_FRAME = 26;
+
 	SDL_Rect idlingClips[IDLING_ANIMATION_FRAME];
 	SDL_Rect runningClips[RUNNING_ANIMATION_FRAME];
 	SDL_Rect attackingClips[ATTACKING_ANIMATION_FRAME];
@@ -100,7 +102,7 @@ private:
 	SDL_Rect specialAttackingClips[SPECIAL_ATTACKING_ANIMATION_FRAME];
 	SDL_Rect beinghitClips[BEINGHIT_ANIMATION_FRAME];
 	SDL_Rect spellClips[SPELL_ANIMATION_FRAME];
-
+	SDL_Rect healingClips[HEALING_ANIMATION_FRAME];
 	SDL_Rect Collision;
 
 	int idleCounter = 0;
@@ -115,6 +117,7 @@ private:
 	int specialAttackCounter = 0;
 	int beinghitCounter = 0;
 	int spellCounter = 0;
+	int healCounter = 0;
 
 	bool on_ground_ = false;
 	bool idle_ = false;
@@ -132,6 +135,7 @@ private:
 	bool specialAttack_ = false;
 	bool beinghit_ = false;
 	bool spell_ = false;
+	bool heal_ = false;
 	bool down_ = false;
 	bool final_ = false;
 	bool doublejump_ = false;

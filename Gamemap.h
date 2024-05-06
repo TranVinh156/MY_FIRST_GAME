@@ -27,6 +27,7 @@ public:
 	std::vector<Tile*> getTilesList() { return tilesList; };
 	std::vector<int> GetUndeadPos() { return undeadPos; };
 	std::vector<int> GetArcherPos() { return archerPos; };
+	int GetPlayerPos() const { return playerPos; };
 	float getX() const { return x_; };
 	float getY() const { return y_; };
 private:
@@ -35,7 +36,8 @@ private:
 	std::vector<Tile*> tilesList; //tileset
 	std::vector<int> undeadPos;
 	std::vector<int> archerPos;
-
+	int playerPos;
+	int gatePos;
 };
 
 

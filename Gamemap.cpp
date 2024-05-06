@@ -43,6 +43,17 @@ Game_Map::Game_Map(float p_x, float p_y, const char* p_path, SDL_Texture* p_text
 			{
 				archerPos.push_back(i);
 			}
+
+			if (tileType == 48)
+			{
+				playerPos = i;
+			}
+
+			if (tileType == 243)
+			{
+				gatePos = i;
+			}
+
 			x += TILE_WIDTH;
 
 			if (x >= getX() + LEVEL_WIDTH) {

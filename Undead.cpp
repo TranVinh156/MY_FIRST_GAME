@@ -49,7 +49,7 @@ void Undead::Gravity()
 void Undead::Update(Player& p_player, Secret& p_secret, std::vector<Game_Map>& levelList, bool p_a, Mix_Chunk* p_undeadSFX[])
 {
 	
-	//std::cout << getRect().w << " " << getRect().h << std::endl;
+
 	if (x_val_ < 0) flip_type_ = SDL_FLIP_HORIZONTAL;
 	if (x_val_ > 0) flip_type_ = SDL_FLIP_NONE;
 	Gravity();

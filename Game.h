@@ -9,14 +9,12 @@
 
 //class Skeleton;
 
-struct path_pos
+struct pathMap
 {
 	const char* path;
-	std::vector<int> undead_pos;
-	path_pos(const char* p_path, std::vector<int> p_undead_pos)
+	pathMap(const char* p_path)
 	{
 		path = p_path;
-		undead_pos = p_undead_pos;
 	}
 };
 
@@ -92,7 +90,7 @@ private:
 	SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	SDL_Rect TileClip[TOTAL_TILE_SPRITE];
 
-	std::vector <path_pos> mapList;
+	std::vector <pathMap> mapList;
 	std::vector <Player> playerList;
 	std::vector <Secret> secretList;
 	std::vector <Undead*> undeadList;

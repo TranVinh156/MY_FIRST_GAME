@@ -43,7 +43,7 @@ public:
 
 	bool SetLoaded(Player& p_player, Secret& p_secret, bool p_a);
 	void SetLevelSTT(int p_levelSTT) { levelSTT = p_levelSTT; };
-	float getDistance() { return distanceToPlayer; };
+	float getDistance() const { return distanceToPlayer; };
 	bool getLoaded() const { return loaded_; };
 	void render(SDL_Rect& camera, Mix_Chunk* p_undeadSFX[]);
 	SDL_Rect getCollision() { return collision; };

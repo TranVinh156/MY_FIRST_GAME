@@ -214,9 +214,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 	
 	if (box.h >= 40) // boss
 	{
-		//for (int i = 0; i < levelList.size(); i++)
-		//{
-			// cần sửa lại
 			if (box.x >= levelList.at(levelSTT).getX() && box.x + box.w < levelList.at(levelSTT).getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT)
 			{
 
@@ -238,7 +235,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt1)->getCollision()))
 					{
 						check = true;
-						//std::cout << "stt1" << std::endl;
 					}
 				}
 
@@ -247,7 +243,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt3)->getCollision()))
 					{
 						check = true;
-						//std::cout << "stt3" << std::endl;
 					}
 				}
 				if ((levelList.at(levelSTT).getTilesList().at(stt2)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt2)->getType() <= 59))
@@ -255,8 +250,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt2)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
-						//std::cout << "stt2" << std::endl;
 					}
 				}
 				if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() <= 59))
@@ -264,8 +257,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt4)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
-						//std::cout << "stt4" << std::endl;
 					}
 				}
 				if ((levelList.at(levelSTT).getTilesList().at(stt5)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt5)->getType() <= 59))
@@ -273,8 +264,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt5)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
-						//std::cout << "stt5" << std::endl;
 					}
 				}
 				if ((levelList.at(levelSTT).getTilesList().at(stt6)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt6)->getType() <= 59))
@@ -282,21 +271,13 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt6)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
-						//std::cout << "stt6" << std::endl;
 					}
 				}
 			}
 
-
-
-		//}
 	}
 	else if (box.h >= 20) // player
 	{
-		//for (int i = 0; i < levelList.size(); i++)
-		//{
-			// cần sửa lại
 			if (box.x >= levelList.at(levelSTT).getX() && box.x + box.w < levelList.at(levelSTT).getX() + LEVEL_WIDTH && box.y >= 0 && box.y < LEVEL_HEIGHT - TILE_HEIGHT)
 			{
 
@@ -333,7 +314,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt2)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
 					}
 				}
 				if ((levelList.at(levelSTT).getTilesList().at(stt4)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt4)->getType() <= 59))
@@ -341,7 +321,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt4)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
 					}
 				}
 				if ((levelList.at(levelSTT).getTilesList().at(stt5)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt5)->getType() <= 59))
@@ -349,7 +328,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt5)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
 					}
 				}
 				if ((levelList.at(levelSTT).getTilesList().at(stt6)->getType() >= 0) && (levelList.at(levelSTT).getTilesList().at(stt6)->getType() <= 59))
@@ -357,14 +335,9 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, int
 					if (checkCollision(box, levelList.at(levelSTT).getTilesList().at(stt6)->getCollision()))
 					{
 						check = true;
-						//box.x -= 0.05;
 					}
 				}
 			}
-
-
-
-		//}
 	}
 	return check;
 }
@@ -374,8 +347,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, boo
 	bool check = false;
 	if (box.h >= 60) // boss
 	{
-		//for (int i = 0; i < levelList.size(); i++) 
-		//{
 			if (box.x >= levelList.at(levelSTT).getX() && box.x-12 <= levelList.at(levelSTT).getX() + LEVEL_WIDTH && box.y >= 0 && box.y + 16 < LEVEL_HEIGHT) 
 			{
 
@@ -415,8 +386,6 @@ bool CommonFunc::checkToMap(SDL_Rect& box, std::vector<Game_Map>& levelList, boo
 	}
 	else if (box.h >= 20) // player
 	{
-		
-		//for (int i = 0; i < levelList.size(); i++) {
 			if (box.x >= levelList.at(levelSTT).getX() && box.x < levelList.at(levelSTT).getX() + LEVEL_WIDTH && box.y >= 0 && box.y + 32 < LEVEL_HEIGHT) {
 
 				// phải tính lại

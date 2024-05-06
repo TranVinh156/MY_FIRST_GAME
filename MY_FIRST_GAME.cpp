@@ -7,13 +7,13 @@ Game MyGame;
 
 int main(int argc, char* argv[])
 {
-    
+    std::srand(std::time(NULL));
     bool fullscreen = false;
     if (!MyGame.Init()) return 0;
     else
     {
         if (!MyGame.LoadMedia()) return -1;
-        else if (!MyGame.CreateMap() || !MyGame.CreatePlayer() || !MyGame.CreateSecret() || !MyGame.CreateLevel() || !MyGame.CreateMenu() || !MyGame.CreateUnDead() || !MyGame.CreateBoss())
+        else if (!MyGame.CreateMap() || !MyGame.CreateLevel() || !MyGame.CreatePlayer() || !MyGame.CreateSecret() || !MyGame.CreateMenu() || !MyGame.CreateUnDead() || !MyGame.CreateBoss())
         {
             return -1;
         }

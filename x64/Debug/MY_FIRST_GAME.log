@@ -1,21 +1,22 @@
-﻿  BOSS.cpp
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(49,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'BOSS.cpp')
+﻿  Game.cpp
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(54,4): warning C4150: deletion of pointer to incomplete type 'Bullet'; no destructor called
+  (compiling source file 'Game.cpp')
+  D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(12,7):
+  see declaration of 'Bullet'
   
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(5,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(6,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(95,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(101,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(108,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(115,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(118,8): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(119,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(138,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(152,14): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(163,14): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(181,14): warning C4244: '=': conversion from 'const int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(192,14): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(289,84): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(289,61): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.cpp(291,32): warning C4244: 'argument': conversion from 'float' to 'const int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(52,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Game.cpp')
+  
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(234,141): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(234,75): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(245,138): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(245,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(302,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(634,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(642,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(675,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(683,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(691,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(712,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(720,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   MY_FIRST_GAME.vcxproj -> D:\PROJECT\MY_FIRST_GAME\x64\Debug\MY_FIRST_GAME.exe
