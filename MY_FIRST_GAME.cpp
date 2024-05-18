@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
 
                 }
                 //CommonFunc::fullScreen(true);
+                MyGame.PlayMusic();
                 if (MyGame.GetMenuList().at(0).isName())
                 {
                     //
@@ -51,7 +52,7 @@ int main(int argc, char* argv[])
                 else
                 {
                     MyGame.RenderGame();
-                    MyGame.PlayMusic();
+                    //MyGame.PlayMusic();
                 }
                 
             }

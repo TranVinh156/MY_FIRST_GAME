@@ -4,24 +4,24 @@ D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(54,4): warning C4150: deletion of 
   D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(12,7):
   see declaration of 'Bullet'
   
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(51,23): warning C4305: 'initializing': truncation from 'double' to 'float'
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(52,23): warning C4305: 'initializing': truncation from 'double' to 'float'
   (compiling source file 'Game.cpp')
   
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(234,141): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(234,75): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(245,138): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(245,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(302,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(627,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(635,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(668,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(676,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(684,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(705,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(713,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(265,141): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(265,75): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(276,138): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(276,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(334,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(666,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(674,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(707,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(715,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(723,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(744,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(752,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   Generating code
-  7 of 1077 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+  6 of 1080 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    18 functions had inline decision re-evaluated but remain unchanged
+    9 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   MY_FIRST_GAME.vcxproj -> D:\PROJECT\MY_FIRST_GAME\x64\Release\MY_FIRST_GAME.exe

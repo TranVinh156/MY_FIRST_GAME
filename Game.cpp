@@ -87,13 +87,28 @@ bool Game::LoadMedia()
 	ArrowText = CommonFunc::loadTexture("img/arrow.png");
 	if (ArrowText == NULL) success = false;
 	
-	bgMusic = Mix_LoadMUS("sfx/xDeviruchi - Prepare for Battle! .wav");
+
+	bgMusic = Mix_LoadMUS("sfx/Undertale OST - Death Report.mp3");
 	if (bgMusic == NULL)
 	{
 		std::cout << Mix_GetError() << std::endl;
 		success = false;
 	}
-	
+
+	finalMusic = Mix_LoadMUS("sfx/Undertale OST - MEGALOVANIA.mp3");
+	if (finalMusic == NULL)
+	{
+		std::cout << Mix_GetError() << std::endl;
+		success = false;
+	}
+
+	menuMusic = Mix_LoadMUS("sfx/Undertale OST- 093 - Menu (Full).mp3");
+	if (menuMusic == NULL)
+	{
+		std::cout << Mix_GetError() << std::endl;
+		success = false;
+	}
+
 	playerSFX[0] = Mix_LoadWAV("sfx/Player/step1.wav");
 	playerSFX[1] = Mix_LoadWAV("sfx/Player/Jump-1.wav");
 	playerSFX[2] = Mix_LoadWAV("sfx/Player/land.wav");
@@ -171,13 +186,32 @@ bool Game::CreateMap()
 
 void Game::PlayMusic()
 {
+
+	if (camera.x >= LEVEL_WIDTH - 2 * SCREEN_WIDTH - 32 && camera.x < LEVEL_WIDTH - SCREEN_WIDTH && levelSTT == 1)
+	{
+		Mix_HaltMusic();
+	}
+
 	if (Mix_PlayingMusic() == 0) {
-		Mix_FadeInMusic(bgMusic, -1, 1000);
-		Mix_VolumeMusic(30);
+		
+		if (menuList.at(0).isMenu() || menuList.at(0).isChoose() || menuList.at(0).isName())
+		{
+			Mix_PlayMusic(menuMusic, -1);
+		}
+		else if (camera.x >= LEVEL_WIDTH - SCREEN_WIDTH)
+		{
+			Mix_PlayMusic(finalMusic, -1);
+		}
+		else if (camera.x < LEVEL_WIDTH - 2 * SCREEN_WIDTH - 32)
+		{
+			Mix_PlayMusic(bgMusic, -1);
+		}
+		Mix_VolumeMusic(100);
 	}
 	else if (Mix_PausedMusic() == 1) Mix_ResumeMusic();
-	else if (playerList.at(0).getDead()) Mix_HaltMusic();
+	else if (playerList.at(0).getDead() || secretList.at(0).getDead()) Mix_HaltMusic();
 }
+
 
 bool Game::CreateMenu()
 {
@@ -198,15 +232,12 @@ bool Game::CreateLevel()
 		if (i == 0)
 		{
 			map = std::rand() % 3;
-			//std::cout << map << std::endl;
 		}
 		else
 		{
 			map = std::rand() % 3 + 3;
-			//std::cout << map << std::endl;
 		}
 		Game_Map level(0, 0, mapList.at(map).path, TileSetText);
-		//level.SetUndeadPos(mapList.at(i).undead_pos);
 		levelList.push_back(level);
 	}
 	
@@ -297,6 +328,7 @@ void Game::HandleGameInput(SDL_Event& event)
 		
 	}
 }
+
 void Game::FPSCounter()
 {
 	avgFPS = countedFrames / (fps.getTicks() / 1000.f);
@@ -557,6 +589,7 @@ void Game::RenderGame()
 	if (playerList.at(0).getDead() || secretList.at(0).getDead() || BossList.at(0).GetDead())
 	{
 		menuList.at(0).RenderRetryMenu();
+		Mix_HaltMusic();
 	}
 	if (menuList.at(0).isReset())
 	{
@@ -596,6 +629,12 @@ void Game::CleanGame()
 	
 	Mix_FreeMusic(bgMusic);
 	bgMusic = NULL;
+
+	Mix_FreeMusic(menuMusic);
+	menuMusic = NULL;
+
+	Mix_FreeMusic(finalMusic);
+	finalMusic = NULL;
 
 	for (int i = 0; i < 5; i++)
 	{

@@ -164,12 +164,14 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 			if (CheckMouse(button4.x, button4.y) && pressed[3])
 			{
 				reset_ = true;
+				Mix_HaltMusic();
 			}
 
 			if (CheckMouse(button5.x, button5.y) && pressed[4])
 			{
 				menu_ = true;
 				reset_ = true;
+				Mix_HaltMusic();
 			}
 		}
 
@@ -180,12 +182,14 @@ void Menu::HandleInput(SDL_Event event, bool& gameRunning, Player& p_player, Sec
 				secret_ = false;
 				choose_ = false;
 				menu_ = false;
+				Mix_HaltMusic();
 			}
 			if (CheckMouse(button7.x, button7.y, BUTTON_WIDTH * 2, BUTTON_HEIGHT * 2) && unlock_ && pressed[6])
 			{
 				choose_ = false;
 				menu_ = false;
 				secret_ = true;
+				Mix_HaltMusic();
 			}
 		}
 

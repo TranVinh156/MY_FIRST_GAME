@@ -78,7 +78,11 @@ private:
 	SDL_Texture* ArrowText = NULL;
 	
 	Mix_Music* bgMusic = NULL;
-	Mix_Chunk* bossMusic = NULL;
+	Mix_Music* menuMusic = NULL;
+	Mix_Music* finalMusic = NULL;
+
+	Mix_Music* gameMusic[3] = { NULL };
+
 	Mix_Chunk* playerSFX[5] = { NULL };
 	Mix_Chunk* secretSFX[6] = { NULL };
 	Mix_Chunk* undeadSFX[4] = { NULL };
