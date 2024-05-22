@@ -1,26 +1,35 @@
-﻿  Game.cpp
+﻿  Secret.cpp
 D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(54,4): warning C4150: deletion of pointer to incomplete type 'Bullet'; no destructor called
-  (compiling source file 'Game.cpp')
+  (compiling source file 'Secret.cpp')
   D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\BOSS.h(12,7):
   see declaration of 'Bullet'
   
 D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\RenderWindow.h(52,23): warning C4305: 'initializing': truncation from 'double' to 'float'
-  (compiling source file 'Game.cpp')
+  (compiling source file 'Secret.cpp')
   
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(265,141): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(265,75): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(276,138): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(276,72): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(334,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(666,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(674,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(707,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(715,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(723,13): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(744,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Game.cpp(752,14): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(6,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(7,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(197,28): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(208,27): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(339,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(346,26): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(353,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(359,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(368,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(377,23): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(381,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(400,24): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(431,25): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(531,82): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(531,52): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(550,83): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(550,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(841,66): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(842,66): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(860,66): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\PROJECT\MY_FIRST_GAME\MY_FIRST_GAME\Secret.cpp(861,67): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   Generating code
-  6 of 1080 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+  2 of 1080 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
     9 functions had inline decision re-evaluated but remain unchanged
   Finished generating code

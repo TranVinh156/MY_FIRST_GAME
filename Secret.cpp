@@ -214,7 +214,7 @@ void Secret::HandleCamera(SDL_Rect& camera, int& p_levelSTT, bool& p_nextlevel, 
 	{
 		camera.y = LEVEL_HEIGHT - camera.h;
 	}
-	if (getX() + 80 >= 8944 && p_levelSTT == 0 && p_skeCount >= 0)
+	if (getX() + 80 >= 8944 && p_levelSTT == 0 && p_skeCount >= 50)
 	{
 		p_levelSTT = levelSTT;
 		p_nextlevel = true;
